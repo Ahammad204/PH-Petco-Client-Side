@@ -1,0 +1,39 @@
+
+
+.header-title{
+    margin-top: 40px;
+    margin-left: 77px;
+    font-size: 20px;
+}
+.main-container{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 50px;
+    align-content: center;
+}
+.error-img{
+    width: 400px;
+    height: 350px;
+}
+.error-title{
+    font-size: 60px;
+    margin-bottom: 35px;
+}
+.error-detail{
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+.error-details{
+    margin-right: 20px;
+}
+
+@media screen and (max-width:576px) {
+    .main-container{
+        flex-direction: column;
+    }
+    .error-details{
+        margin-left: 30px;
+    }
+}
