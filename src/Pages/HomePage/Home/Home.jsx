@@ -1,3 +1,4 @@
+import AboutUs from "../AboutUs/AboutUs";
 import Banner from "../Banner/Banner";
 import CallToActionSection from "../CallToActionSection/CallToActionSection";
 import Categories from "../Category/Categories";
@@ -11,6 +12,7 @@ const Home = () => {
             <Categories></Categories>
             <CallToActionSection></CallToActionSection>
             <DownloadApp></DownloadApp>
+            <AboutUs></AboutUs>
         </div>
     );
 };
