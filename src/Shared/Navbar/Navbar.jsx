@@ -17,7 +17,7 @@ const Navbar = () => {
 
     return (
 
-        <div className="navbar fixed shadow-xl p-4 max-w-screen-xl ">
+        <div className="navbar sticky shadow-xl p-4 max-w-screen-xl ">
             <div className="navbar-start">
                 <div className="dropdown">
                     <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -65,7 +65,7 @@ const Navbar = () => {
                         </ul>
                     </div>
                         :
-                        <Link to="/login"><button className="btn text-white border-none bg-[#E59285] hover:bg-[#E59285]">Login Now</button></Link>
+                        <Link to="/login"><button className="btn text-white border-none bg-[#f04336] hover:bg-[#f04336]">Login Now</button></Link>
                 }
             </div>
         </div>

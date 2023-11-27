@@ -1,10 +1,11 @@
+/* eslint-disable no-unused-vars */
 import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../Provider/AuthProvider";
 import SocialLogin from "./SocialLogin/SocialLogin";
-
-
+const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
 
 
 const Register = () => {
@@ -105,12 +106,12 @@ const Register = () => {
                         </label>
                     </div>
                     <div className="form-control mt-6">
-                        <button className="btn btn-primary text-white border-none bg-[#E59285]  hover:bg-[#E59285] ">Register</button>
+                        <button className="btn btn-primary text-white border-none bg-[#f04336]  hover:bg-[#f04336] ">Register</button>
                     </div>
                     <SocialLogin></SocialLogin>
 
                 </form>
-                <p className="text-center mt-4">Already have an account? <Link className="text-[#E59285]  font-bold" to="/login">Login</Link></p>
+                <p className="text-center mt-4">Already have an account? <Link className="text-[#f04336]  font-bold" to="/login">Login</Link></p>
             </div>
         </div>
     );

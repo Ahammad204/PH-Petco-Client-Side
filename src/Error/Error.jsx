@@ -17,7 +17,7 @@ const Error = () => {
           <div className="error-details">
             <h1 className="error-title">I have bad news <br /> for you</h1>
             <p className="error-detail">The page you are looking <br /> for might be removed or is <br /> temporarily unavailable</p>
-          <Link to="/"> <button className="btn text-white border-none bg-[#E59285]">Back to homepage</button></Link>
+          <Link to="/"> <button className="btn text-white border-none bg-[#f04336]">Back to homepage</button></Link>
           </div>
         </div>
       </main>
