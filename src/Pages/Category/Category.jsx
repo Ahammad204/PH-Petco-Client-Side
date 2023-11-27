@@ -24,6 +24,17 @@ const Category = () => {
         .then(res => {
 
             console.log(res.data);
+            if(res.data.insertedId){
+
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Your work has been saved",
+                    showConfirmButton: false,
+                    timer: 1500
+                  });
+
+            }
 
         })
 
@@ -35,7 +46,7 @@ const Category = () => {
     return (
         <div>
             <div className=" p-10">
-                <h2 className="text-3xl font-extrabold text-center mb-6">Add a Book Category</h2> <hr />
+                <h2 className="text-3xl font-extrabold text-center mb-6">Add a Pet Category</h2> <hr />
                 <form onSubmit={handleAddCategory} className="mt-4">
 
                     {/* Name and quantity row */}
