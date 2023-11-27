@@ -4,6 +4,7 @@ import MainLayout from "../Layouts/MainLayout";
 import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
 import Error from "../Error/Error";
+import Category from "../Pages/Category/Category";
 
 export const router = createBrowserRouter([
     {
@@ -29,6 +30,11 @@ export const router = createBrowserRouter([
 
       path:"/register",
       element:<Register></Register>
+
+    },{
+
+      path:"/category",
+      element:<Category></Category>
 
     }
   ]);
