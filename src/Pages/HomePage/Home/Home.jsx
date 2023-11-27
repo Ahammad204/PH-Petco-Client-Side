@@ -1,4 +1,5 @@
 import Banner from "../Banner/Banner";
+import CallToActionSection from "../CallToActionSection/CallToActionSection";
 import Categories from "../Category/Categories";
 
 
@@ -7,6 +8,7 @@ const Home = () => {
         <div>
             <Banner></Banner>
             <Categories></Categories>
+            <CallToActionSection></CallToActionSection>
         </div>
     );
 };

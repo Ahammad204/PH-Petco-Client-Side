@@ -21,7 +21,7 @@ const PetCategory = ({ category }) => {
 
                 </div>
                 <div className="m-3">
-                    <Link to={`/category/${name}`}><button className="btn w-full text-white bg-[#E59285] hover:bg-[#E59285]">See All {name}</button></Link>
+                    <Link to={`/category/${name}`}><button className="btn w-full text-white bg-[#f04336] hover:bg-[#f04336]">See All {name}</button></Link>
                 </div>
             </div>
 
