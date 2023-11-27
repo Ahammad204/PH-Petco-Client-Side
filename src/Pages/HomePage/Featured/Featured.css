@@ -1,0 +1,18 @@
+.featured-item {
+    background-image: url('../../../assets/normal/pet.jpg');
+    background-repeat: no-repeat;
+    background-size: cover; 
+    background-position: center; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    color: #fff; 
+    padding: 20px; 
+    margin-bottom: 20px; 
+
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center; 
+}
+
+

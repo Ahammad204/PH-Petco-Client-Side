@@ -41,7 +41,7 @@ const Register = () => {
                                         showConfirmButton: false,
                                         timer: 1500
                                     });
-                                    navigate('/');
+                                    navigate('/login');
                                 }
                             })
 
@@ -99,10 +99,10 @@ const Register = () => {
                                 </label>
                             </div>
                             <div className="form-control mt-6">
-                                <input className="btn btn-primary" type="submit" value="Sign Up" />
+                                <input className="btn bg-[#f04336] hover:bg-[#f04336] text-white" type="submit" value="Sign Up" />
                             </div>
                         </form>
-                        <p className="text-center mt-4">Already have an account? <Link className="text-[#E59285]  font-bold" to="/login">Login</Link></p>
+                        <p className="text-center mt-4">Already have an account? <Link className="text-[#f04336]  font-bold" to="/login">Login</Link></p>
                         <SocialLogin></SocialLogin>
                     </div>
                 </div>
