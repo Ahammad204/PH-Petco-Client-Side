@@ -1,121 +1,132 @@
-/* eslint-disable no-unused-vars */
-import { Link, useNavigate } from "react-router-dom";
-import { useContext } from "react";
-import toast from "react-hot-toast";
-import { AuthContext } from "../../Provider/AuthProvider";
-import SocialLogin from "./SocialLogin/SocialLogin";
-const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
-const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
+import { useForm } from 'react-hook-form';
+import Swal from "sweetalert2";
+import useAxiosPublic from '../../Hooks/useAxiosPublic';
+import useAxiosSecure from './../../Hooks/useAxiosSecure';
+import SocialLogin from './SocialLogin/SocialLogin';
+import { Link } from 'react-router-dom';
+import useAuth from '../../Hooks/useAuth';
 
+const imageHostingKey = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+const imageHostingApi = `https://api.imgbb.com/1/upload?key=${imageHostingKey}`;
 
 const Register = () => {
 
-    // eslint-disable-next-line no-unused-vars
-    const { createUser, user, handleUpdateProfile } = useContext(AuthContext);
-    const navigate = useNavigate()
+    const { register, handleSubmit } = useForm()
+    const axiosPubic = useAxiosPublic()
+    const axiosSecure = useAxiosSecure()
+    const { createUser, handleUpdateProfile } = useAuth();
 
+    const onSubmit = async (data) => {
 
-    const handleRegister = (e) => {
+        createUser(data.email, data.password)
+            .then( (result) => {
+                const loggedUser = result.user
+                console.log(loggedUser)
+                handleUpdateProfile(data.name, data.photoUrl)
+                    .then(async () => {
 
-        e.preventDefault();
+                        const imageFile = { image: data.image[0] }
 
-        const name = e.target.name.value;
-        const photo = e.target.photo.value;
-        const email = e.target.email.value;
-        const password = e.target.password.value;
-        console.log(email, name, photo, password)
+                        const res = await axiosPubic.post(imageHostingApi, imageFile, {
 
-        // Password validation
+                            headers: {
 
-        if (password.length < 6) {
-            toast.error('Password must be at least 6 characters long');
+                                'content-Type': 'multipart/form-data'
 
-            return
-        } else if (!/[A-Z]/.test(password)) {
-            toast.error('Password must contain at least one capital letter');
-            return
-        } else if (!/[\W_]/.test(password)) {
-            toast.error('Password must contain at least one special character');
-            return
-        }
+                            }
 
+                        })
 
-        //   create user
+                        if (res.data.success) {
 
-        createUser(email, password)
-            .then(result => {
+                            const menuItem = {
 
-                handleUpdateProfile(name, photo)
-                    .then((res) => {
-                        toast.success('User created successfully');
+                                name: data.name,
+                                email: data.email,
+                                image: res.data.data.display_url,
+                                role: 'user'
 
-                        navigate('/login')
+                            }
 
-                        console.log(result)
-                        console.log(res)
+                            const userResponse = await axiosSecure.post('/users', menuItem);
+                            console.log(userResponse.data)
 
+                            if (userResponse.data.insertedId) {
 
+                                Swal.fire({
+                                    position: "top-end",
+                                    icon: "success",
+                                    title: `Welcome ${data.name} `,
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+
+                            }
+
+                        }
+
+                        console.log(res.data)
+
+                    })
+                    .catch(error => {
+
+                        console.log(error)
 
                     })
 
-            })
-            .catch(error => {
-                toast.error('Error: ' + error.message)
-            })
 
+            })
 
 
 
     }
 
     return (
-        <div>
-            <div>
+        <div className=" md:w-3/4 lg:w-1/2 mx-auto">
+
+            <div >
                 <h2 className="text-3xl my-10 text-center">Please Register</h2>
-                <form onSubmit={handleRegister} className=" md:w-3/4 lg:w-1/2 mx-auto">
-                    <div className="form-control">
+                <form onSubmit={handleSubmit(onSubmit)}>
+
+
+                    {/* User Name */}
+                    <div className="form-control w-full my-6">
                         <label className="label">
-                            <span className="label-text">Name</span>
+                            <span className="label-text">Enter Your Name*</span>
                         </label>
-                        <input type="text" required name="name" placeholder="Name" className="input input-bordered" />
+                        <input {...register("name")} required type="text" placeholder="Enter Your Name" className="input input-bordered w-full" />
+
                     </div>
-                    <div className="form-control">
+                    {/* User Email */}
+                    <div className="form-control w-full my-6">
                         <label className="label">
-                            <span className="label-text">Email</span>
+                            <span className="label-text">Enter Your Email*</span>
                         </label>
-                        <input type="email" required name="email" placeholder="Email" className="input input-bordered" />
+                        <input {...register("email")} required type="email" placeholder="Enter Your Email" className="input input-bordered w-full" />
+
                     </div>
-                    <div className="form-control">
+                    {/* Password */}
+                    <div className="form-control w-full my-6">
                         <label className="label">
-                            <span className="label-text">Password</span>
+                            <span className="label-text">Enter Your password*</span>
                         </label>
-                        <input type="password" required name="password" placeholder="Password" className="input input-bordered" />
-                       
+                        <input {...register("password")} required type="password" placeholder="Password" className="input input-bordered w-full" />
+
                     </div>
-                    <div className="form-control">
-                        <div className="form-control w-full max-w-xs">
-                            <label className="label">
-                                <span className="label-text">Upload Your Photo</span>
-                                
-                            </label>
-                            <input type="file" required className="file-input file-input-bordered w-full max-w-full" />
-                          
-                        </div>
-                        <label className="label">
-                            <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
-                        </label>
-                    </div>
-                    <div className="form-control mt-6">
-                        <button className="btn btn-primary text-white border-none bg-[#f04336]  hover:bg-[#f04336] ">Register</button>
+
+                    {/* Image */}
+                    <div>
+                        <input {...register("image")} required type="file" className="file-input w-full my-6" />
                     </div>
                     <SocialLogin></SocialLogin>
-
+                    <div className='form-control my-6'>
+                        <button type="submit" className="btn mt-6 text-center">Register</button>
+                    </div>
                 </form>
-                <p className="text-center mt-4">Already have an account? <Link className="text-[#f04336]  font-bold" to="/login">Login</Link></p>
+                <p className="text-center mt-4 mb-10">Already have an account? <Link className="text-[#f04336]  font-bold" to="/login">Login</Link></p>
             </div>
         </div>
     );
 };
-
 
 export default Register;
