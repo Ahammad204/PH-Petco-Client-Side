@@ -1,5 +1,5 @@
 
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import SocialLogin from './../Register/SocialLogin/SocialLogin';
 import toast from 'react-hot-toast';
 import useAuth from '../../Hooks/useAuth';
@@ -8,8 +8,8 @@ const Login = () => {
 
 
     const { login } = useAuth()
-    // const location = useLocation();
-    // const navigate = useNavigate();
+    const location = useLocation();
+    const navigate = useNavigate();
 
     const handleLogin = (e) => {
 
@@ -21,16 +21,16 @@ const Login = () => {
 
         // Password validation
 
-        if (password.length < 6) {
-            toast.error('Password must be at least 6 characters long');
-            return
-        } else if (!/[A-Z]/.test(password)) {
-            toast.error('Password must contain at least one capital letter');
-            return
-        } else if (!/[\W_]/.test(password)) {
-            toast.error('Password must contain at least one special character');
-            return
-        }
+        // if (password.length < 6) {
+        //     toast.error('Password must be at least 6 characters long');
+        //     return
+        // } else if (!/[A-Z]/.test(password)) {
+        //     toast.error('Password must contain at least one capital letter');
+        //     return
+        // } else if (!/[\W_]/.test(password)) {
+        //     toast.error('Password must contain at least one special character');
+        //     return
+        // }
 
         //   Login user
 
@@ -39,6 +39,7 @@ const Login = () => {
                 toast.success('User logged in successfully');
 
                 console.log(result.user);
+                navigate(location?.state ? location.state : '/');
 
                 // const user = { email }
 

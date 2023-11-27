@@ -62,7 +62,7 @@ const AuthProvider = ({ children }) => {
 
     }
 
-    console.log(auth)
+    // console.log(auth)
 
     // logout
 
@@ -110,7 +110,7 @@ const AuthProvider = ({ children }) => {
 
      }, [user])
 
-    console.log(user)
+     console.log(user)
 
 
 
