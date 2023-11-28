@@ -1,7 +1,9 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import PetListingCard from "./PetListingCard";
-import SearchForm from "../../../Components/SearchForm/SearchForm";
+// import SearchForm from "../../../Components/SearchForm/SearchForm";
+// import SearchBarWithCategories from "../../../Components/SearchForm/SearchForm";
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -10,6 +12,7 @@ const Petlisting = () => {
 
     const [pet, setPet] = useState([])
     const [isLoading, setIsLoading] = useState(true);
+    const [inputValue, setInputValue] = useState('');
 
     //Fetch book data by category
     useEffect(() => {
@@ -17,8 +20,8 @@ const Petlisting = () => {
             setIsLoading(true);
             const response = await fetch('pet.json');
             const data = await response.json();
-
-            setPet(data);
+            const filteredProducts = data.filter((item) => item.pet_adoption === "not_adopted");
+            setPet(filteredProducts);
             setIsLoading(false);
 
         };
@@ -26,10 +29,26 @@ const Petlisting = () => {
         fetchData();
     }, []);
 
+
+    const handleSearch = (event) => {
+        if (event.key === 'Enter') {
+            alert('Hello, ' + inputValue + '!');
+        }
+    };
+
     return (
         <div>
             <div>
-                <SearchForm></SearchForm>
+                <div className="flex">
+                    <select className="select select-bordered w-full max-w-xs">
+                        <option disabled selected>Who shot first?</option>
+                        <option>Han Solo</option>
+                        <option>Greedo</option>
+                    </select>
+                    <input onChange={(e) => setInputValue(e.target.value)}
+                        onKeyDown={handleSearch} type="text" placeholder="Type here" className="input input-bordered w-full "></input>
+                
+                </div>
                 <div>
                     {pet.length > 0 ? (
 

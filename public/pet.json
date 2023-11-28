@@ -4,6 +4,7 @@
       "pet_image": "https://example.com/pet1.jpg",
       "pet_name": "Fluffy",
       "pet_age": 3,
+      "pet_adoption": "not_adopted",
       "pet_location": "City A"
     },
     {
@@ -11,6 +12,7 @@
       "pet_image": "https://example.com/pet2.jpg",
       "pet_name": "Buddy",
       "pet_age": 2,
+      "pet_adoption": "not_adopted",
       "pet_location": "City B"
     },
     {
@@ -18,6 +20,7 @@
       "pet_image": "https://example.com/pet3.jpg",
       "pet_name": "Whiskers",
       "pet_age": 4,
+      "pet_adoption": "not_adopted",
       "pet_location": "City C"
     },
     {
@@ -25,6 +28,7 @@
       "pet_image": "https://example.com/pet4.jpg",
       "pet_name": "Oreo",
       "pet_age": 1,
+      "pet_adoption": "not_adopted",
       "pet_location": "City D"
     },
     {
@@ -32,6 +36,7 @@
       "pet_image": "https://example.com/pet5.jpg",
       "pet_name": "Shadow",
       "pet_age": 5,
+      "pet_adoption": "not_adopted",
       "pet_location": "City E"
     },
     {
@@ -39,6 +44,7 @@
       "pet_image": "https://example.com/pet6.jpg",
       "pet_name": "Cleo",
       "pet_age": 2,
+      "pet_adoption": "not_adopted",
       "pet_location": "City F"
     },
     {
@@ -46,6 +52,7 @@
       "pet_image": "https://example.com/pet7.jpg",
       "pet_name": "Rocky",
       "pet_age": 3,
+      "pet_adoption": "not_adopted",
       "pet_location": "City G"
     },
     {
@@ -53,6 +60,7 @@
       "pet_image": "https://example.com/pet8.jpg",
       "pet_name": "Luna",
       "pet_age": 4,
+      "pet_adoption": "not_adopted",
       "pet_location": "City H"
     },
     {
@@ -60,6 +68,7 @@
       "pet_image": "https://example.com/pet9.jpg",
       "pet_name": "Max",
       "pet_age": 2,
+      "pet_adoption": "not_adopted",
       "pet_location": "City I"
     },
     {
@@ -67,6 +76,7 @@
       "pet_image": "https://example.com/pet10.jpg",
       "pet_name": "Milo",
       "pet_age": 3,
+      "pet_adoption": "adopted",
       "pet_location": "City J"
     }
   ]
