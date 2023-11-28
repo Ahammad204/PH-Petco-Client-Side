@@ -30,11 +30,24 @@ const Petlisting = () => {
     }, []);
 
 
-    const handleSearch = (event) => {
+    const handleSearch = async (event) => {
         if (event.key === 'Enter') {
-            alert('Hello, ' + inputValue + '!');
+            setIsLoading(true);
+            try {
+                const response = await fetch('pet.json');
+                const data = await response.json();
+                const filteredProducts = data.filter((item) => 
+                    item.pet_adoption === "not_adopted" && item.pet_name.toLowerCase().includes(inputValue.toLowerCase())
+                );
+                setPet(filteredProducts);
+                setIsLoading(false);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setIsLoading(false);
+            }
         }
     };
+    
 
     return (
         <div>
