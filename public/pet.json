@@ -5,6 +5,8 @@
       "pet_name": "Fluffy",
       "pet_age": 3,
       "pet_adoption": "not_adopted",
+      "pet_category":"birds",
+      "date_added": "2023-11-27T11",
       "pet_location": "City A"
     },
     {
@@ -13,6 +15,8 @@
       "pet_name": "Buddy",
       "pet_age": 2,
       "pet_adoption": "not_adopted",
+      "pet_category":"birds",
+      "date_added": "2023-11-27T10",
       "pet_location": "City B"
     },
     {
@@ -21,6 +25,8 @@
       "pet_name": "Whiskers",
       "pet_age": 4,
       "pet_adoption": "not_adopted",
+      "pet_category":"birds",
+      "date_added": "2023-12-27T12",
       "pet_location": "City C"
     },
     {
