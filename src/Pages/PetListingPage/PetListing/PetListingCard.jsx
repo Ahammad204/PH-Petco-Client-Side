@@ -7,17 +7,17 @@ import { Link } from "react-router-dom";
 
 const PetListingCard = ({  petItem }) => {
 
-    const { _id, pet_name, pet_age,  pet_location,  pet_image,pet_category } = petItem || {}
+    const { _id, petName, petAge,   petLocation,image,category } = petItem || {}
 
     return (
 
         <div className="card bg-base-100 shadow-xl " key={_id}>
-            <figure><img className="w-full h-96" src={pet_image} alt={pet_name} /></figure>
+            <figure><img className="w-full h-96" src={image} alt={petName} /></figure>
             <div className="card-body">
-                <h2 className="card-title font-extrabold text-3xl">{pet_name}</h2>
-                <p className="text-base font-semibold mt-4">CATEGORY: {pet_category} </p>
-                <p className="text-base font-semibold mt-4">Pet Age: {pet_age} </p>
-                <p className="text-lg font-semibold text-[#f04336]">Pet Location:{pet_location}</p>
+                <h2 className="card-title font-extrabold text-3xl">{petName}</h2>
+                <p className="text-base font-semibold mt-4">CATEGORY: {category} </p>
+                <p className="text-base font-semibold mt-4">Pet Age: {petAge} </p>
+                <p className="text-lg font-semibold text-[#f04336]">Pet Location:{petLocation}</p>
                
 
                 <div className="card-actions justify-end">

@@ -15,9 +15,9 @@ const Petlisting = () => {
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
-            const response = await fetch('pet.json');
+            const response = await fetch('http://localhost:5000/pet');
             const data = await response.json();
-            const filteredProducts = data.filter((item) => item.pet_adoption === "not_adopted");
+            const filteredProducts = data.filter((item) => item.adopted === false);
             setPet(filteredProducts);
             setIsLoading(false);
 
@@ -31,10 +31,10 @@ const Petlisting = () => {
         if (event.key === 'Enter') {
             setIsLoading(true);
              {
-                const response = await fetch('pet.json');
+                const response = await fetch('http://localhost:5000/pet');
                 const data = await response.json();
                 const filteredProducts = data.filter((item) => 
-                    item.pet_adoption === "not_adopted" && item.pet_name.toLowerCase().includes(inputValue.toLowerCase())
+                    item.adopted === false && item.petName.toLowerCase().includes(inputValue.toLowerCase())
                 );
                 setPet(filteredProducts);
                 setIsLoading(false);
@@ -47,13 +47,13 @@ const Petlisting = () => {
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
-            const response = await fetch('pet.json');
+            const response = await fetch('http://localhost:5000/pet');
             const data = await response.json();
 
-            let filteredProducts = data.filter((item) => item.pet_adoption === "not_adopted");
+            let filteredProducts = data.filter((item) => item.adopted === false);
 
             if (selectedCategory) {
-                filteredProducts = filteredProducts.filter((item) => item.pet_category === selectedCategory);
+                filteredProducts = filteredProducts.filter((item) => item.category === selectedCategory);
             }
 
             setPet(filteredProducts);
@@ -73,7 +73,8 @@ const Petlisting = () => {
                 <div className="flex my-4 gap-4">
                     <select onChange={handleCategoryChange} className="select select-bordered w-full max-w-xs">
                         <option disabled selected>Select a Pet Category</option>
-                        <option value="Birds">Birds</option>
+                        <option value="birds">Birds</option>
+                        <option value="cats">Cats</option>
                        
                     </select>
                     <input onChange={(e) => setInputValue(e.target.value)}
