@@ -5,9 +5,9 @@
 import { Link } from "react-router-dom";
 
 
-const PetListingCard = ({ bookItem }) => {
+const PetListingCard = ({  petItem }) => {
 
-    const { _id, pet_name, pet_age,  pet_location,  pet_image } = bookItem || {}
+    const { _id, pet_name, pet_age,  pet_location,  pet_image,pet_category } = petItem || {}
 
     return (
 
@@ -15,13 +15,9 @@ const PetListingCard = ({ bookItem }) => {
             <figure><img className="w-full h-96" src={pet_image} alt={pet_name} /></figure>
             <div className="card-body">
                 <h2 className="card-title font-extrabold text-3xl">{pet_name}</h2>
-                <p className="text-base font-semibold mt-4">CATEGORY: </p>
-                <p className={`text-lg font-semibold ${pet_age < 1 || pet_age < null ? 'text-red-600' : ''}`}>
-                    {pet_age < 1 || pet_age < null ? 'Out of Stock' : `Available Books: ${pet_age}`}
-                </p>
-
-
-                <p className="text-lg font-semibold text-[#E59285]">AUTHOR:{pet_location}</p>
+                <p className="text-base font-semibold mt-4">CATEGORY: {pet_category} </p>
+                <p className="text-base font-semibold mt-4">Pet Age: {pet_age} </p>
+                <p className="text-lg font-semibold text-[#E59285]">Pet Location:{pet_location}</p>
                
 
                 <div className="card-actions justify-end">

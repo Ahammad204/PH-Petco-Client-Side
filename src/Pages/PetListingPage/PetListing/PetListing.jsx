@@ -9,6 +9,7 @@ const Petlisting = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [inputValue, setInputValue] = useState('');
     const [selectedCategory, setSelectedCategory] = useState(null);
+   
 
     //Fetch pet data by category
     useEffect(() => {
@@ -72,7 +73,7 @@ const Petlisting = () => {
                 <div className="flex my-4 gap-4">
                     <select onChange={handleCategoryChange} className="select select-bordered w-full max-w-xs">
                         <option disabled selected>Select a Pet Category</option>
-                        <option value="birds">Birds</option>
+                        <option value="Birds">Birds</option>
                        
                     </select>
                     <input onChange={(e) => setInputValue(e.target.value)}
@@ -88,7 +89,7 @@ const Petlisting = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10 ">
                                 {
 
-                                    pet?.map(bookItem => <PetListingCard key={bookItem._id} bookItem={bookItem}></PetListingCard>)
+                                    pet?.map(petItem => <PetListingCard key={petItem._id} petItem={petItem}></PetListingCard>)
 
                                 }
                             </div>
