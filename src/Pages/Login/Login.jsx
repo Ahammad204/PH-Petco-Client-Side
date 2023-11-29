@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import SocialLogin from './../Register/SocialLogin/SocialLogin';
 import toast from 'react-hot-toast';
 import useAuth from '../../Hooks/useAuth';
+import axios from 'axios';
 
 const Login = () => {
 
@@ -21,16 +22,16 @@ const Login = () => {
 
         // Password validation
 
-        // if (password.length < 6) {
-        //     toast.error('Password must be at least 6 characters long');
-        //     return
-        // } else if (!/[A-Z]/.test(password)) {
-        //     toast.error('Password must contain at least one capital letter');
-        //     return
-        // } else if (!/[\W_]/.test(password)) {
-        //     toast.error('Password must contain at least one special character');
-        //     return
-        // }
+         if (password.length < 6) {
+             toast.error('Password must be at least 6 characters long');
+            return
+         } else if (!/[A-Z]/.test(password)) {
+            toast.error('Password must contain at least one capital letter');
+             return
+         } else if (!/[\W_]/.test(password)) {
+             toast.error('Password must contain at least one special character');
+            return
+         }
 
         //   Login user
 
@@ -41,20 +42,19 @@ const Login = () => {
                 console.log(result.user);
                 navigate(location?.state ? location.state : '/');
 
-                // const user = { email }
+                const user = { email }
 
                 //Get Access Token 
 
-                // axios.post('https://phb-oigor-server-side.vercel.app/jwt', user, { withCredentials: true })
-                //     .then(res => {
+                axios.post('http://localhost:5000/jwt', user, { withCredentials: true })
+                    .then(res => {
 
-                //         console.log(res.data)
-                //         if (res.data.success) {
+                        console.log(res.data)
+                        if (res.data.success) {
 
-                //             navigate(location?.state ? location.state : '/');
-
-                //         }
-                //     })
+                            navigate(location?.state ? location.state : '/')
+                        }
+                    })
 
 
 

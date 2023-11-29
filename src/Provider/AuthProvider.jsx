@@ -2,6 +2,7 @@
 import { createContext, useEffect, useState } from "react";
 import { GithubAuthProvider, GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import auth from "../Firebase/firebase.config";
+import axios from "axios";
 // import axios from "axios";
 
 
@@ -69,6 +70,7 @@ const AuthProvider = ({ children }) => {
     const logout = () => {
 
         setLoading(true)
+        localStorage.removeItem('access-token');
         return signOut(auth)
 
     }
@@ -83,26 +85,31 @@ const AuthProvider = ({ children }) => {
             setUser(user)
            setLoading(false)
 
-    //         //If user Exist then issue a token
-    //         if (user) {
+            //If user Exist then issue a token
+            if (user) {
 
-    //             axios.post('https://phb-oigor-server-side.vercel.app/jwt', loggedUser, { withCredentials: true })
-    //                 .then(res => {
+                axios.post('http://localhost:5000/jwt', loggedUser, { withCredentials: true })
+                    .then(res => {
 
-    //                     console.log(res.data)
+                        if (res.data.token) {
+                            localStorage.setItem('access-token', res.data.token);
+                        }else{
+                            localStorage.removeItem('access-token');
+                        }
 
-    //                 })
+                    })
 
-    //         }  else {
+            }  else {
 
-    //             axios.post('https://phb-oigor-server-side.vercel.app/logout', loggedUser, { withCredentials: true })
-    //                 .then(res => {
+                axios.post('http://localhost:5000/logout', loggedUser, { withCredentials: true })
+                    .then(res => {
 
-    //                     console.log(res.data)
+                        console.log(res.data)
+                        localStorage.removeItem('access-token');
 
-    //                 })
+                    })
 
-    //         } 
+            } 
 
 
        });
