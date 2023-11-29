@@ -4,13 +4,22 @@ import useAddedPets from "../../Hooks/useAddedPets";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+// import ReactPaginate from "react-paginate";
+import { Pagination } from "@mui/material";
 
 
 const MyAddedPets = () => {
     const [pet, refetch] = useAddedPets()
     const axiosSecure = useAxiosSecure();
-    //Handle Delete Pet
+    const [currentPage, setCurrentPage] = useState(1);
+    const petsPerPage = 10;
 
+    const handlePageChange = (event, page) => {
+        setCurrentPage(page);
+    };
+
+    //Handle Delete Pet
     const handleDelete = id => {
         Swal.fire({
             title: "Are you sure?",
@@ -53,6 +62,9 @@ const MyAddedPets = () => {
                 }
             })
     }
+
+    const offset = (currentPage - 1) * petsPerPage;
+    const currentPets = pet.slice(offset, offset + petsPerPage);
     return (
         <div>
             <div className="flex justify-evenly my-4">
@@ -76,7 +88,7 @@ const MyAddedPets = () => {
                     </thead>
                     <tbody>
                         {
-                            pet?.map((pet, index) => <tr key={pet._id}>
+                            currentPets?.map((pet, index) => <tr key={pet._id}>
                                 <th>{index + 1}</th>
                                 <td>
                                     <div className="flex items-center gap-3">
@@ -122,6 +134,17 @@ const MyAddedPets = () => {
 
                     </tbody>
                 </table>
+                {pet.length > petsPerPage && (
+                    <div className="join">
+                        <Pagination
+                            count={Math.ceil(pet.length / petsPerPage)}
+                            page={currentPage}
+                            onChange={handlePageChange}
+                            variant="outlined"
+                            shape="rounded"
+                        />
+                    </div>
+                )}
             </div>
         </div>
     );
