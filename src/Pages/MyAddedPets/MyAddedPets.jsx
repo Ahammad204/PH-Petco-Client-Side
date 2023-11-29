@@ -68,7 +68,7 @@ const MyAddedPets = () => {
     return (
         <div>
             <div className="flex justify-evenly my-4">
-                <h2 className="text-3xl">All Added Pets</h2>
+              
                 <h2 className="text-3xl">Total Pets: {pet.length}</h2>
             </div>
             <div className="overflow-x-auto">

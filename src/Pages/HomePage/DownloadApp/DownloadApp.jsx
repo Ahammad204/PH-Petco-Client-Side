@@ -6,7 +6,7 @@ const DownloadApp = () => {
     return (
         <div>
             <SectionTitle heading="App Section" subHeading="Download Our App"></SectionTitle>
-            <div className="md:flex ml-32 mt-10 gap-20">
+            <div className="md:flex md:ml-32 mt-10 gap-20">
 
                 <div className="mt-7">
                     <h1 className="font-bold text-5xl">Download <span className="text-[#f04336]">Our Petco</span> <br />  App For Free</h1>

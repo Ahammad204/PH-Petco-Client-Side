@@ -79,7 +79,7 @@ const AddPet = () => {
                     Swal.fire({
                         position: "top-end",
                         icon: "success",
-                        title: `${values.petName} is added to the menu.`,
+                        title: `${values.petName} is added to the Team.`,
                         showConfirmButton: false,
                         timer: 1500
                     });

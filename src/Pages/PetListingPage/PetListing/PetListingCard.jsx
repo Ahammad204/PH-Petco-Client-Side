@@ -17,7 +17,7 @@ const PetListingCard = ({  petItem }) => {
                 <h2 className="card-title font-extrabold text-3xl">{petName}</h2>
                 <p className="text-base font-semibold mt-4">CATEGORY: {category} </p>
                 <p className="text-base font-semibold mt-4">Pet Age: {petAge} </p>
-                <p className="text-lg font-semibold text-[#f04336]">Pet Location:{petLocation}</p>
+                <p className="text-lg font-semibold text-[#f04336]">Pet Location: {petLocation}</p>
                
 
                 <div className="card-actions justify-end">
