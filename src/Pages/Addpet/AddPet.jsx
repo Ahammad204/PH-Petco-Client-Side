@@ -6,6 +6,7 @@ import Select from 'react-select';
 import useAxiosPublic from '../../Hooks/useAxiosPublic';
 import Swal from 'sweetalert2';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
+import useAuth from '../../Hooks/useAuth';
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
@@ -13,6 +14,9 @@ const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_ke
 const AddPet = () => {
     const axiosPublic = useAxiosPublic();
     const axiosSecure = useAxiosSecure();
+    const { user } = useAuth()
+    const email = user.email
+
     // Formik initialization
     const formik = useFormik({
         initialValues: {
@@ -38,13 +42,14 @@ const AddPet = () => {
             // Here you can send the data to your MongoDB server or API
             console.log('Form data submitted:', values);
             const currentDate = new Date();
-           const date = values.addedDate = currentDate.toISOString();
-           console.log(date)
+            const date = values.addedDate = currentDate.toISOString();
+            console.log(date)
             // Example: send data to MongoDB
             // axios.post('/api/addPet', values)
             // image upload to imgbb and then get an url
+            
             console.log(values)
-            const imageFile = { image: values.petImage}
+            const imageFile = { image: values.petImage }
             const res = await axiosPublic.post(image_hosting_api, imageFile, {
                 headers: {
                     'content-type': 'multipart/form-data'
@@ -61,6 +66,7 @@ const AddPet = () => {
                     longDescription: values.longDescription,
                     date: date,
                     adopted: false,
+                    email:email,
                     image: res.data.data.display_url,
                 };
                 console.log(res.data.data.display_url);
@@ -69,7 +75,7 @@ const AddPet = () => {
                 console.log(petRes.data)
                 if (petRes.data.insertedId) {
                     // show success popup
-                   
+
                     Swal.fire({
                         position: "top-end",
                         icon: "success",
@@ -220,7 +226,7 @@ const AddPet = () => {
 
 
                 {/* Submit Button */}
-                <button  className='btn bg-[#f04336] hover:bg-[#f04336] w-full text-white' type="submit">Add Pet</button>
+                <button className='btn bg-[#f04336] hover:bg-[#f04336] w-full text-white' type="submit">Add Pet</button>
             </form>
         </div>
     );

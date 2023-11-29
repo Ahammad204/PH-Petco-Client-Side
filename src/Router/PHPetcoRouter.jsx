@@ -9,6 +9,7 @@ import Petlisting from "../Pages/PetListingPage/PetListing/PetListing";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import PrivateRoute from "./PrivateRouter";
 import AddPet from "../Pages/Addpet/AddPet";
+import MyAddedPets from "../Pages/MyAddedPets/MyAddedPets";
 
 
 
@@ -57,6 +58,11 @@ export const router = createBrowserRouter([
 
         path: "/dashboard/addPet",
         element: <PrivateRoute><AddPet></AddPet></PrivateRoute>
+
+      },{
+
+        path:"/dashboard/addedPet",
+        element:<PrivateRoute><MyAddedPets></MyAddedPets></PrivateRoute>
 
       }
 
