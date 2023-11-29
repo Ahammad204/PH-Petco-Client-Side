@@ -37,6 +37,9 @@ const AddPet = () => {
         onSubmit: async (values) => {
             // Here you can send the data to your MongoDB server or API
             console.log('Form data submitted:', values);
+            const currentDate = new Date();
+           const date = values.addedDate = currentDate.toISOString();
+           console.log(date)
             // Example: send data to MongoDB
             // axios.post('/api/addPet', values)
             // image upload to imgbb and then get an url
@@ -56,6 +59,8 @@ const AddPet = () => {
                     petLocation: values.petLocation,
                     shortDescription: values.shortDescription,
                     longDescription: values.longDescription,
+                    date: date,
+                    adopted: false,
                     image: res.data.data.display_url,
                 };
                 console.log(res.data.data.display_url);
@@ -68,7 +73,7 @@ const AddPet = () => {
                     Swal.fire({
                         position: "top-end",
                         icon: "success",
-                        title: `${values.name} is added to the menu.`,
+                        title: `${values.petName} is added to the menu.`,
                         showConfirmButton: false,
                         timer: 1500
                     });
