@@ -1,8 +1,9 @@
 
-import { FaPaw, FaTrashAlt, FaWrench } from "react-icons/fa";
+import { FaEdit, FaPaw, FaTrashAlt, } from "react-icons/fa";
 import useAddedPets from "../../Hooks/useAddedPets";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import { Link } from "react-router-dom";
 
 
 const MyAddedPets = () => {
@@ -79,11 +80,13 @@ const MyAddedPets = () => {
 
                                 </td>
                                 <td>
-                                    <button
-
-                                        className="btn btn-ghost btn-lg">
-                                        <FaWrench className="text-red-600"></FaWrench>
-                                    </button>
+                                    <Link to={`/dashboard/updateItem/${pet._id}`}>
+                                        <button
+                                            className="btn btn-ghost btn-lg bg-orange-300">
+                                            <FaEdit className="text-white 
+                                        "></FaEdit>
+                                        </button>
+                                    </Link>
                                 </td>
                                 <td>
                                     <button

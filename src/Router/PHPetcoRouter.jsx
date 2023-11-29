@@ -10,6 +10,7 @@ import Dashboard from "../Pages/Dashboard/Dashboard";
 import PrivateRoute from "./PrivateRouter";
 import AddPet from "../Pages/Addpet/AddPet";
 import MyAddedPets from "../Pages/MyAddedPets/MyAddedPets";
+import UpdatePet from "../Pages/UpdatePet/UpdatePet";
 
 
 
@@ -59,12 +60,16 @@ export const router = createBrowserRouter([
         path: "/dashboard/addPet",
         element: <PrivateRoute><AddPet></AddPet></PrivateRoute>
 
-      },{
+      }, {
 
-        path:"/dashboard/addedPet",
-        element:<PrivateRoute><MyAddedPets></MyAddedPets></PrivateRoute>
+        path: "/dashboard/addedPet",
+        element: <PrivateRoute><MyAddedPets></MyAddedPets></PrivateRoute>
 
-      }
+      }, {
+        path: '/dashboard/updateItem/:id',
+        element: <PrivateRoute><UpdatePet></UpdatePet></PrivateRoute>,
+        loader: ({ params }) => fetch(`http://localhost:5000/pet/${params.id}`)
+      },
 
     ]
 
