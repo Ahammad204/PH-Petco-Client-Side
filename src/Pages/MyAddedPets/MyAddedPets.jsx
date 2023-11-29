@@ -37,7 +37,22 @@ const MyAddedPets = () => {
             }
         });
     }
-
+    const handleUpdateAdoption = pet => {
+        axiosSecure.patch(`/pet/user/${pet._id}`)
+            .then(res => {
+                console.log(res.data)
+                if (res.data.modifiedCount > 0) {
+                    refetch();
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: `${pet.petName} is an Adopt Now!`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            })
+    }
     return (
         <div>
             <div className="flex justify-evenly my-4">
@@ -82,8 +97,8 @@ const MyAddedPets = () => {
                                 <td>
                                     <Link to={`/dashboard/updateItem/${pet._id}`}>
                                         <button
-                                            className="btn btn-ghost btn-lg bg-orange-300">
-                                            <FaEdit className="text-white 
+                                            className="btn btn-ghost btn-lg ">
+                                            <FaEdit className="text-red-600
                                         "></FaEdit>
                                         </button>
                                     </Link>
@@ -97,7 +112,7 @@ const MyAddedPets = () => {
                                 </td>
                                 <td>
                                     <button
-
+                                        onClick={() => handleUpdateAdoption(pet)}
                                         className="btn btn-ghost btn-lg">
                                         <FaPaw className="text-red-600"></FaPaw>
                                     </button>
