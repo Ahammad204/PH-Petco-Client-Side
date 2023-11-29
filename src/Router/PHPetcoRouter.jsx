@@ -6,62 +6,61 @@ import Register from "../Pages/Register/Register";
 import Error from "../Error/Error";
 import Category from "../Pages/Category/Category";
 import Petlisting from "../Pages/PetListingPage/PetListing/PetListing";
-import DashboardLayout from "../Layouts/DashboardLayout";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import PrivateRoute from "./PrivateRouter";
+import AddPet from "../Pages/Addpet/AddPet";
 
 
 
 export const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <MainLayout></MainLayout>,
-      errorElement:<Error></Error>,
-      children:[
+  {
+    path: "/",
+    element: <MainLayout></MainLayout>,
+    errorElement: <Error></Error>,
+    children: [
 
-        {
+      {
 
-          path:"/",
-          element:<Home></Home>
+        path: "/",
+        element: <Home></Home>
 
-        },{
+      }, {
 
-          path:"/petlisting",
-          element:<Petlisting></Petlisting>
+        path: "/petlisting",
+        element: <Petlisting></Petlisting>
 
-        }
+      }
 
-      ]
-    },{
+    ]
+  }, {
 
-      path:"/login",
-      element:<Login></Login>
+    path: "/login",
+    element: <Login></Login>
 
-    },{
+  }, {
 
-      path:"/register",
-      element:<Register></Register>
+    path: "/register",
+    element: <Register></Register>
 
-    },{
+  }, {
 
-      path:"/category",
-      element:<Category></Category>
+    path: "/category",
+    element: <Category></Category>
 
-    },{
+  }, {
 
-      path:"/dashboard",
-      element:<DashboardLayout></DashboardLayout>,
-      errorElement:<Error></Error>,
-      children:[
+    path: "/dashboard",
+    element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
+    errorElement: <Error></Error>,
+    children: [
+      {
 
-        {
+        path: "/dashboard/addPet",
+        element: <PrivateRoute><AddPet></AddPet></PrivateRoute>
 
-          path:"/dashboard",
-          element:<PrivateRoute><Dashboard></Dashboard></PrivateRoute>
+      }
 
-        }
+    ]
 
-      ]
-
-    }
-  ]);
+  }
+]);
