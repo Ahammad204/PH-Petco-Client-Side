@@ -6,6 +6,8 @@ import Register from "../Pages/Register/Register";
 import Error from "../Error/Error";
 import Category from "../Pages/Category/Category";
 import Petlisting from "../Pages/PetListingPage/PetListing/PetListing";
+import DashboardLayout from "../Layouts/DashboardLayout";
+import Dashboard from "../Pages/Dashboard/Dashboard";
 
 
 export const router = createBrowserRouter([
@@ -42,6 +44,22 @@ export const router = createBrowserRouter([
 
       path:"/category",
       element:<Category></Category>
+
+    },{
+
+      path:"/dashboard",
+      element:<DashboardLayout></DashboardLayout>,
+      errorElement:<Error></Error>,
+      children:[
+
+        {
+
+          path:"/dashboard",
+          element:<Dashboard></Dashboard>
+
+        }
+
+      ]
 
     }
   ]);

@@ -51,10 +51,7 @@ const Navbar = () => {
                                 <button className="btn btn-sm btn-ghost">{user.displayName}</button>
 
                             </li>
-                            <li>
-                                <button className="btn btn-sm btn-ghost">Dashboard</button>
-
-                            </li>
+                            <li className="btn btn-sm btn-ghost text-lg font-semibold text-center"><NavLink to="/dashboard">Dashboard</NavLink></li>
 
                             <li>
                                 <button className="btn btn-sm  btn-ghost"
