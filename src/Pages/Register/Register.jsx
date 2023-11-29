@@ -7,6 +7,7 @@ import useAuth from "../../Hooks/useAuth";
 import SocialLogin from "./SocialLogin/SocialLogin";
 
 
+
 const Register = () => {
     const axiosPublic = useAxiosPublic();
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
@@ -37,7 +38,7 @@ const Register = () => {
                                     Swal.fire({
                                         position: 'top-end',
                                         icon: 'success',
-                                        title: 'User created successfully.',
+                                        title: 'Account created successfully.',
                                         showConfirmButton: false,
                                         timer: 1500
                                     });
@@ -47,7 +48,7 @@ const Register = () => {
 
 
                     })
-                    .catch(error => console.log(error))
+                 
             })
     };
 

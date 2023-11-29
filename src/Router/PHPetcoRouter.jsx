@@ -8,6 +8,7 @@ import Category from "../Pages/Category/Category";
 import Petlisting from "../Pages/PetListingPage/PetListing/PetListing";
 import DashboardLayout from "../Layouts/DashboardLayout";
 import Dashboard from "../Pages/Dashboard/Dashboard";
+import PrivateRoute from "./PrivateRouter";
 
 
 export const router = createBrowserRouter([
@@ -55,7 +56,7 @@ export const router = createBrowserRouter([
         {
 
           path:"/dashboard",
-          element:<Dashboard></Dashboard>
+          element:<PrivateRoute><Dashboard></Dashboard></PrivateRoute>
 
         }
 

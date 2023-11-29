@@ -1,9 +1,10 @@
 
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import SocialLogin from './../Register/SocialLogin/SocialLogin';
-import toast from 'react-hot-toast';
 import useAuth from '../../Hooks/useAuth';
 import axios from 'axios';
+import toast from 'react-hot-toast';
+import Swal from 'sweetalert2';
 
 const Login = () => {
 
@@ -23,13 +24,25 @@ const Login = () => {
         // Password validation
 
          if (password.length < 6) {
-             toast.error('Password must be at least 6 characters long');
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Password Must be 6 word long",
+              });
             return
          } else if (!/[A-Z]/.test(password)) {
-            toast.error('Password must contain at least one capital letter');
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Password must contain at least one capital letter",
+              });
              return
          } else if (!/[\W_]/.test(password)) {
-             toast.error('Password must contain at least one special character');
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Password must contain at least one special letter",
+              });
             return
          }
 
