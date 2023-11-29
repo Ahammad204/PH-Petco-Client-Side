@@ -11,6 +11,7 @@ import PrivateRoute from "./PrivateRouter";
 import AddPet from "../Pages/Addpet/AddPet";
 import MyAddedPets from "../Pages/MyAddedPets/MyAddedPets";
 import UpdatePet from "../Pages/UpdatePet/UpdatePet";
+import DetailsPage from "../Pages/DetailsPage/DetailsPage";
 
 
 
@@ -48,6 +49,11 @@ export const router = createBrowserRouter([
 
     path: "/category",
     element: <Category></Category>
+
+  },{
+
+    path:'/details/:id',
+    element:<PrivateRoute><DetailsPage></DetailsPage></PrivateRoute>
 
   }, {
 
