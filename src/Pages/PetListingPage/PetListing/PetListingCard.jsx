@@ -17,11 +17,11 @@ const PetListingCard = ({  petItem }) => {
                 <h2 className="card-title font-extrabold text-3xl">{pet_name}</h2>
                 <p className="text-base font-semibold mt-4">CATEGORY: {pet_category} </p>
                 <p className="text-base font-semibold mt-4">Pet Age: {pet_age} </p>
-                <p className="text-lg font-semibold text-[#E59285]">Pet Location:{pet_location}</p>
+                <p className="text-lg font-semibold text-[#f04336]">Pet Location:{pet_location}</p>
                
 
                 <div className="card-actions justify-end">
-                    <Link to={`/details/${_id}`}>  <button className="btn bg-[#E59285] hover:bg-[#E59285] text-white">Details</button></Link>
+                    <Link to={`/details/${_id}`}>  <button className="btn bg-[#f04336] hover:bg-[#f04336] text-white">Details</button></Link>
        
                 </div>
             </div>

@@ -40,7 +40,8 @@ const AddPet = () => {
             // Example: send data to MongoDB
             // axios.post('/api/addPet', values)
             // image upload to imgbb and then get an url
-            const imageFile = { image: values.image[0] }
+            console.log(values)
+            const imageFile = { image: values.petImage}
             const res = await axiosPublic.post(image_hosting_api, imageFile, {
                 headers: {
                     'content-type': 'multipart/form-data'
@@ -48,19 +49,20 @@ const AddPet = () => {
             });
             if (res.data.success) {
                 // now send the menu item data to the server with the image url
-                const menuItem = {
+                const petItem = {
                     petName: values.petName,
                     category: values.category,
                     petAge: parseFloat(values.petAge),
-                    petLocation:values.petLocation,
-                    shortDescription:values.shortDescription,
-                    longDescription:values.longDescription,
-                    image: res.data.data.display_url
-                }
+                    petLocation: values.petLocation,
+                    shortDescription: values.shortDescription,
+                    longDescription: values.longDescription,
+                    image: res.data.data.display_url,
+                };
+                console.log(res.data.data.display_url);
                 // 
-                const menuRes = await axiosSecure.post('/menu', menuItem);
-                console.log(menuRes.data)
-                if (menuRes.data.insertedId) {
+                const petRes = await axiosSecure.post('/pet', petItem);
+                console.log(petRes.data)
+                if (petRes.data.insertedId) {
                     // show success popup
                    
                     Swal.fire({
@@ -213,7 +215,7 @@ const AddPet = () => {
 
 
                 {/* Submit Button */}
-                <button type="submit">Add Pet</button>
+                <button  className='btn bg-[#f04336] hover:bg-[#f04336] w-full text-white' type="submit">Add Pet</button>
             </form>
         </div>
     );
