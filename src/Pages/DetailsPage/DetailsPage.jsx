@@ -13,7 +13,7 @@ const DetailsPage = () => {
     const [petDetails, setPetDetails] = useState();
     const [isLoading, setIsLoading] = useState(true);
 
-    const { _id, petName, longDescription, image, category,email:ownerEmail } = petDetails || {}
+    const { _id, petName,petAge, longDescription, image, category, email: ownerEmail } = petDetails || {}
 
     const { user } = useAuth();
 
@@ -46,8 +46,8 @@ const DetailsPage = () => {
         const phone = form.phoneNumber?.value;
         const address = form.address?.value;
 
-        
-        const newAdopt = { names, email, phone,address,ownerEmail}
+
+        const newAdopt = { names, email, phone, address, ownerEmail }
 
         console.log(newAdopt);
 
@@ -74,7 +74,7 @@ const DetailsPage = () => {
                         title: "Your Request has been sent",
                         showConfirmButton: false,
                         timer: 1500
-                      });
+                    });
 
                 }
 
@@ -90,7 +90,15 @@ const DetailsPage = () => {
                     <div className="max-w-md">
                         <h1 className="mb-5 text-5xl font-bold ">{petName}</h1>
                         <p className="mb-5 text-lg  font-medium">{longDescription}</p>
-                        <p className="mb-5 text-lg  font-medium">{category}</p>
+
+                        <div className="grid md:grid-cols-3 grid-cols-1 gap-4 mb-4">
+                            <button className="btn bg-transparent text-white hover:bg-[#f04336]  border-2 border-[#f04336] hover:border-none font-outfit">Category {category}</button>
+
+                            <button className="btn h-auto bg-transparent text-white hover:bg-[#f04336]  border-2 border-[#f04336] hover:border-none font-outfit"> Age: {petAge}</button>
+
+                            <button className="btn h-auto bg-transparent text-white hover:bg-[#f04336]  border-2 border-[#f04336] hover:border-none font-outfit"> {petName}</button>
+
+                        </div>
 
                         <div className="">
 
@@ -113,7 +121,7 @@ const DetailsPage = () => {
                             {/* Open the modal using document.getElementById('ID').showModal() method */}
                             <dialog id="my_modal_1" className="modal text-slate-500">
                                 <div className="modal-box">
-                                    <form  method="dialog">
+                                    <form method="dialog">
                                         {/* if there is a button in form, it will close the modal */}
                                         <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                                     </form>

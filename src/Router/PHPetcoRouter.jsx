@@ -12,6 +12,7 @@ import AddPet from "../Pages/Addpet/AddPet";
 import MyAddedPets from "../Pages/MyAddedPets/MyAddedPets";
 import UpdatePet from "../Pages/UpdatePet/UpdatePet";
 import DetailsPage from "../Pages/DetailsPage/DetailsPage";
+import DonationCampaign from "../Pages/DonationCampaign/DonationCampaign";
 
 
 
@@ -32,7 +33,12 @@ export const router = createBrowserRouter([
         path: "/petlisting",
         element: <Petlisting></Petlisting>
 
-      }
+      },{
+
+        path:'/details/:id',
+        element:<PrivateRoute><DetailsPage></DetailsPage></PrivateRoute>
+    
+      },
 
     ]
   }, {
@@ -49,11 +55,6 @@ export const router = createBrowserRouter([
 
     path: "/category",
     element: <Category></Category>
-
-  },{
-
-    path:'/details/:id',
-    element:<PrivateRoute><DetailsPage></DetailsPage></PrivateRoute>
 
   }, {
 
@@ -75,7 +76,12 @@ export const router = createBrowserRouter([
         path: '/dashboard/updateItem/:id',
         element: <PrivateRoute><UpdatePet></UpdatePet></PrivateRoute>,
         loader: ({ params }) => fetch(`http://localhost:5000/pet/${params.id}`)
-      },
+      },{
+
+          path:'/dashboard/createDonationCampaign',
+          element:<PrivateRoute><DonationCampaign></DonationCampaign></PrivateRoute>
+
+      }
 
     ]
 
