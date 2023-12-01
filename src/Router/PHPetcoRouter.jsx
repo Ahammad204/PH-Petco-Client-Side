@@ -13,6 +13,7 @@ import MyAddedPets from "../Pages/MyAddedPets/MyAddedPets";
 import UpdatePet from "../Pages/UpdatePet/UpdatePet";
 import DetailsPage from "../Pages/DetailsPage/DetailsPage";
 import DonationCampaign from "../Pages/DonationCampaign/DonationCampaign";
+import MyAddedDonation from "../Pages/MyAddedDonation/MyAddedDonation";
 
 
 
@@ -81,7 +82,12 @@ export const router = createBrowserRouter([
           path:'/dashboard/createDonationCampaign',
           element:<PrivateRoute><DonationCampaign></DonationCampaign></PrivateRoute>
 
-      }
+      }, {
+
+        path: "/dashboard/addedDonation",
+        element: <PrivateRoute><MyAddedDonation></MyAddedDonation></PrivateRoute>
+
+      },
 
     ]
 

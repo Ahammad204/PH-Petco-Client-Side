@@ -78,7 +78,7 @@ const Dashboard = () => {
                             Create Donation Campaign</NavLink>
                     </li>
                     <li>
-                        <NavLink to="/dashboard/myDonationCampaign">
+                        <NavLink to="/dashboard/addedDonation">
                         <FaHandHoldingDollar></FaHandHoldingDollar>
                             My Donation Campaign</NavLink>
                     </li>

@@ -16,7 +16,7 @@ const Petlisting = () => {
     // Fetch pet data
     const fetchPetData = async (pageNumber) => {
         setIsLoading(true);
-        const response = await fetch(`http://localhost:5000/pet?page=${pageNumber}`);
+        const response = await fetch(`http://localhost:5000/petListing?page=${pageNumber}`);
         const data = await response.json();
 
         // If there's no data for the current page, set hasMore to false
@@ -41,7 +41,7 @@ const Petlisting = () => {
     const handleSearch = async (event) => {
         if (event.key === 'Enter') {
             setIsLoading(true);
-            const response = await fetch('http://localhost:5000/pet');
+            const response = await fetch('http://localhost:5000/petListing');
             const data = await response.json();
             const filteredProducts = data.filter(
                 (item) => item.adopted === false && item.petName.toLowerCase().includes(inputValue.toLowerCase())
@@ -56,7 +56,7 @@ const Petlisting = () => {
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
-            const response = await fetch('http://localhost:5000/pet');
+            const response = await fetch('http://localhost:5000/petListing');
             const data = await response.json();
 
             let filteredProducts = data.filter((item) => item.adopted === false);
