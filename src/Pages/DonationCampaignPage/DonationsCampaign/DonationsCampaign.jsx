@@ -8,21 +8,20 @@ const DonationsCampaign = () => {
 
     const [donation, setDonation] = useState([])
     const [isLoading, setIsLoading] = useState(true);
-    const [inputValue, setInputValue] = useState('');
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
 
 
-   // Fetch pet data
+   // Fetch donation data
     const fetchDonationData = async (pageNumber) => {
         setIsLoading(true);
-        const response = await fetch(`donation.json?page=${pageNumber}`);
+        const response = await fetch(`http://localhost:5000/donationCampaign?page=${pageNumber}`);
         const data = await response.json();
 
         if (data.length === 0) {
             setHasMore(false);
         } else {
-            const filteredProducts = data.filter((item) => item.adopted === false);
+            const filteredProducts = data.filter((item) => item.status === "active");
 
             setDonation((prevPet) => (pageNumber === 1 ? filteredProducts : [...prevPet, ...filteredProducts]));
         }
@@ -35,26 +34,7 @@ const DonationsCampaign = () => {
         fetchDonationData(page);
     }, [page]);
 
-    // Handle search
   
-
-
-    // Fetch pet data by category
-    useEffect(() => {
-        const fetchData = async () => {
-            setIsLoading(true);
-            const response = await fetch('donation.json');
-            const data = await response.json();
-
-            setDonation(data);
-            setIsLoading(false);
-        };
-
-        fetchData();
-    }, []);
-
-
-
     // Handle infinite scroll
     useEffect(() => {
         const handleScroll = () => {

@@ -75,7 +75,7 @@ const DonationCampaign = () => {
                     longDescription: values.longDescription,
                     donationCreateDate: date,
                     donationLastDate:selectedDate,
-                    email: email,
+                    ownerEmail: email,
                     status:"active",
                     image: res.data.data.display_url,
                 };

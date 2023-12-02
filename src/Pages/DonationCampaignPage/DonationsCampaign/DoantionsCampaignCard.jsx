@@ -7,16 +7,16 @@ import { Link } from "react-router-dom";
 
 const DonationCampaignCard = ({  donationItem }) => {
 
-    const { _id, petName, MaximumDonationAmount, DonatedAmount, petImage, } = donationItem || {}
+    const { _id, petName, maxDonationAmount, DonatedAmount,  image, } = donationItem || {}
 
     return (
 
         <div className="card bg-base-100 shadow-xl " key={_id}>
-            <figure><img className="w-full h-96" src={petImage} alt={petName} /></figure>
+            <figure><img className="w-full h-96" src={image} alt={petName} /></figure>
             <div className="card-body">
                 <h2 className="card-title font-extrabold text-3xl">{petName}</h2>
-                <p className="text-base font-semibold mt-4">Maximum Donation Amount: {MaximumDonationAmount} </p>
-                <p className="text-lg font-semibold text-[#f04336]">Donated Amount: {DonatedAmount}</p>
+                <p className="text-base font-semibold mt-4">Maximum Donation Amount: {maxDonationAmount} </p>
+                {/* <p className="text-lg font-semibold text-[#f04336]">Donated Amount: {DonatedAmount}</p> */}
                
 
                 <div className="card-actions justify-end">

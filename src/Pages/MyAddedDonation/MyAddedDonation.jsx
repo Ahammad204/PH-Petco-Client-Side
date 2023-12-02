@@ -1,5 +1,5 @@
 
-import { FaEdit, FaPause,  FaPlay, } from "react-icons/fa";
+import { FaEdit, FaPause, FaPlay, } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Pagination } from "@mui/material";
 import useAddedDonation from "../../Hooks/useAddedDonation";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import { FaHandHoldingDollar } from "react-icons/fa6";
 
 
 const MyAddedDonation = () => {
@@ -59,6 +60,7 @@ const MyAddedDonation = () => {
                             <th>Donation Progress Bar</th>
                             <th>Update</th>
                             <th>Donation Status</th>
+                            <th>Donator</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -95,8 +97,38 @@ const MyAddedDonation = () => {
                                     <button
                                         onClick={() => handleUpdateAdoption(donation)}
                                         className="btn btn-ghost btn-lg">
-                                        {donation.status === 'active' ? <FaPause className="text-red-600" ></FaPause>: <FaPlay className="text-red-600"></FaPlay>}
+                                        {donation.status === 'active' ? <FaPause className="text-red-600" ></FaPause> : <FaPlay className="text-red-600"></FaPlay>}
                                     </button>
+                                </td>
+
+                                <td>
+                                    <button
+                                        onClick={() => {
+
+                                            document.getElementById('my_modal_1').showModal();
+
+                                        }}
+                                        className="btn btn-ghost btn-lg">
+                                        <FaHandHoldingDollar className="text-red-600" ></FaHandHoldingDollar>
+
+                                    </button>
+
+
+                                    {/* Open the modal using document.getElementById('ID').showModal() method */}
+                                    <dialog id="my_modal_1" className="modal text-slate-500">
+                                        <div className="modal-box">
+                                            <form method="dialog">
+                                                {/* if there is a button in form, it will close the modal */}
+                                                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                                            </form>
+                                            <form className="mt-4">
+
+
+                                            </form>
+                                        </div>
+                                    </dialog>
+
+                                    
                                 </td>
                             </tr>)
                         }

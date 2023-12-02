@@ -6,54 +6,53 @@ import { Link, useParams } from "react-router-dom";
 
 import Swal from "sweetalert2";
 import useAuth from "../../Hooks/useAuth";
+import SectionTitle from "../../Components/SectionTitle/SectionTitle";
+
 
 
 const DonationDetailsPage = () => {
 
     const { id } = useParams()
-    const [petDetails, setPetDetails] = useState();
+    const [donationDetails, setDonationDetails] = useState();
     const [isLoading, setIsLoading] = useState(true);
 
-    const { _id, petName,petAge, longDescription, image, category, email: ownerEmail } = petDetails || {}
+    const { _id, petName, maxDonationAmount, longDescription, image, email: ownerEmail } = donationDetails || {}
 
     const { user } = useAuth();
 
     const email = user.email;
     const names = user.displayName;
-    const petId = _id;
+    const donationId = _id;
 
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
-            const response = await fetch(`http://localhost:5000/petListing`);
+            const response = await fetch(`http://localhost:5000/donationCampaign`);
             const data = await response.json();
             const filteredProducts = data.filter((item) => item._id === id);
-            setPetDetails(filteredProducts[0]);
+            setDonationDetails(filteredProducts[0]);
 
             setIsLoading(false);
 
         };
 
         fetchData();
-    }, [email, petId, id]);
+    }, [email, donationId, id]);
 
-    const handleAdoptPet = (e) => {
+    const handleDonate = (e) => {
 
         e.preventDefault();
         const form = e.target;
 
-        const names = form.names?.value;
-        const email = form.email?.value;
-        const phone = form.phoneNumber?.value;
-        const address = form.address?.value;
 
 
-        const newAdopt = { names, email, phone, address, ownerEmail }
+
+        const newAdopt = {}
 
         console.log(newAdopt);
 
         //send data to the server
-        fetch('http://localhost:5000/adopt', {
+        fetch('http://localhost:5000/payment', {
 
             method: 'POST',
             headers: {
@@ -72,7 +71,7 @@ const DonationDetailsPage = () => {
                     Swal.fire({
                         position: "top-end",
                         icon: "success",
-                        title: "Your Request has been sent",
+                        title: "Your Donation has been sent",
                         showConfirmButton: false,
                         timer: 1500
                     });
@@ -93,9 +92,9 @@ const DonationDetailsPage = () => {
                         <p className="mb-5 text-lg  font-medium">{longDescription}</p>
 
                         <div className="grid md:grid-cols-3 grid-cols-1 gap-4 mb-4">
-                            <button className="btn bg-transparent text-white hover:bg-[#f04336]  border-2 border-[#f04336] hover:border-none font-outfit">Category {category}</button>
+                            {/* <button className="btn bg-transparent text-white hover:bg-[#f04336]  border-2 border-[#f04336] hover:border-none font-outfit">Category {category}</button> */}
 
-                            <button className="btn h-auto bg-transparent text-white hover:bg-[#f04336]  border-2 border-[#f04336] hover:border-none font-outfit"> Age: {petAge}</button>
+                            <button className="btn h-auto bg-transparent text-white hover:bg-[#f04336]  border-2 border-[#f04336] hover:border-none font-outfit"> Age: {maxDonationAmount}</button>
 
                             <button className="btn h-auto bg-transparent text-white hover:bg-[#f04336]  border-2 border-[#f04336] hover:border-none font-outfit"> {petName}</button>
 
@@ -113,7 +112,7 @@ const DonationDetailsPage = () => {
                                 }}
 
                             >
-                                Adopt
+                                Donate
                             </button>
 
 
@@ -126,57 +125,14 @@ const DonationDetailsPage = () => {
                                         {/* if there is a button in form, it will close the modal */}
                                         <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                                     </form>
-                                    <form onSubmit={handleAdoptPet} className="mt-4">
+                                    <form onSubmit={handleDonate} className="mt-4">
 
 
-                                        {/* Name and Email row */}
-                                        <div className="md:flex mb-8">
-                                            <div className="form-control md:w-1/2">
-                                                <label className="label">
-                                                    <span className="label-text">Name</span>
-                                                </label>
-                                                <label className="input-group">
+                                <SectionTitle heading="Donate" subHeading="save pet"></SectionTitle>
 
-                                                    <input type="text" disabled defaultValue={names} required name="names" placeholder="Enter Your Full Name" className="input input-bordered w-full" />
-                                                </label>
-                                            </div>
-                                            <div className="form-control md:w-1/2 ml-4">
-                                                <label className="label">
-                                                    <span className="label-text">E-Mail</span>
-                                                </label>
-                                                <label className="input-group">
+                                
 
-                                                    <input type="email" disabled defaultValue={email} required name="email" placeholder="Enter Your Email" className="input input-bordered w-full" />
-                                                </label>
-                                            </div>
-                                        </div>
-
-                                        {/* Name and Email row */}
-                                        <div className="md:flex mb-8">
-                                            <div className="form-control md:w-1/2">
-                                                <label className="label">
-                                                    <span className="label-text">Phone Number</span>
-                                                </label>
-                                                <label className="input-group">
-
-                                                    <input type="text" required name="phoneNumber" placeholder="Enter Your Phone Number" className="input input-bordered w-full" />
-                                                </label>
-                                            </div>
-                                            <div className="form-control md:w-1/2 ml-4">
-                                                <label className="label">
-                                                    <span className="label-text">Address</span>
-                                                </label>
-                                                <label className="input-group">
-
-                                                    <input type="text" required name="address" placeholder="Enter Your Address" className="input input-bordered w-full" />
-                                                </label>
-                                            </div>
-                                        </div>
-
-
-
-
-                                        <input className="btn btn-block text-white bg-[#E59285] hover:bg-[#E59285] " type="submit" value="Adopt" />
+                                        <input className="btn btn-block text-white bg-[#E59285] hover:bg-[#E59285] " type="submit" value="Donate" />
                                     </form>
                                 </div>
                             </dialog>
