@@ -111,7 +111,7 @@ const DonationDetailsPage = () => {
                                         <div>
                                             <Elements stripe={stripePromise}>
 
-                                                <Checkout></Checkout>
+                                                <Checkout image={image} petName={petName}></Checkout>
 
                                             </Elements>
                                         </div>

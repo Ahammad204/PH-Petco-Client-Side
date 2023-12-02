@@ -1,16 +1,18 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { useEffect } from "react";
+
 import { useState } from "react";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
 
 
-const Checkout = () => {
+
+const Checkout = ({ image, petName }) => {
 
     const [error, setError] = useState('')
-    const [donation,setDonation] = useState()
+    // const [donation,setDonation] = useState()
     const [clientSecret,setClientSecret] = useState('')
     const [loading, setLoading] = useState(false);
     const stripe = useStripe()
@@ -29,10 +31,10 @@ const Checkout = () => {
 
         const form = event.target;
 
-        const donations = form.donation?.value;
-        console.log(donations)
+        const donation = form.donation?.value;
+       
 
-        setDonation(donations)
+        // setDonation(donations)
 
         if (!stripe || !elements || loading) {
 
@@ -66,6 +68,7 @@ const Checkout = () => {
         else {
 
             console.log('Payment Method', paymentMethod)
+            console.log(donation)
 
             const response = await axiosSecure.post('/create-payment-intent', { donation });
             setClientSecret(response.data.clientSecret);
@@ -110,6 +113,20 @@ const Checkout = () => {
                     showConfirmButton: false,
                     timer: 1500
                   });
+
+                  const donate  = {
+
+                    donatorEmail: email,
+                    donateAmount: parseInt(donation),
+                    transactionId: paymentIntent.id,
+                    donatePetImage: image,
+                    donatePetName:petName, 
+
+                  }
+
+                  const res = await axiosSecure.post('/payment',donate)
+                  console.log(res)
+
 
             }
 
