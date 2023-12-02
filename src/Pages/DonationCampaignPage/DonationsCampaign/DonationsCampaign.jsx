@@ -13,27 +13,27 @@ const DonationsCampaign = () => {
     const [hasMore, setHasMore] = useState(true);
 
 
-    // Fetch pet data
-    // const fetchPetData = async (pageNumber) => {
-    //     setIsLoading(true);
-    //     const response = await fetch(`http://localhost:5000/petListing?page=${pageNumber}`);
-    //     const data = await response.json();
+   // Fetch pet data
+    const fetchDonationData = async (pageNumber) => {
+        setIsLoading(true);
+        const response = await fetch(`donation.json?page=${pageNumber}`);
+        const data = await response.json();
 
-    //     if (data.length === 0) {
-    //         setHasMore(false);
-    //     } else {
-    //         const filteredProducts = data.filter((item) => item.adopted === false);
+        if (data.length === 0) {
+            setHasMore(false);
+        } else {
+            const filteredProducts = data.filter((item) => item.adopted === false);
 
-    //         setDonation((prevPet) => (pageNumber === 1 ? filteredProducts : [...prevPet, ...filteredProducts]));
-    //     }
+            setDonation((prevPet) => (pageNumber === 1 ? filteredProducts : [...prevPet, ...filteredProducts]));
+        }
 
-    //     setIsLoading(false);
-    // };
+        setIsLoading(false);
+    };
 
-    // Initial data fetch
-    // useEffect(() => {
-    //     fetchPetData(page);
-    // }, [page]);
+    //Initial data fetch
+    useEffect(() => {
+        fetchDonationData(page);
+    }, [page]);
 
     // Handle search
   
@@ -77,6 +77,8 @@ const DonationsCampaign = () => {
         };
     }, [hasMore]);
 
+    
+
     return (
         <div>
             <div>
@@ -84,7 +86,7 @@ const DonationsCampaign = () => {
                     {donation.length > 0 ? (
 
                         <div>
-                            <h1 className="text-center font-bold text-6xl mb-5 mt-5"> Available <span className="text-[#E59285]">  Categories</span></h1>
+                            <h1 className="text-center font-bold text-6xl mb-5 mt-5"> Available <span className="text-[#E59285]">  Donations</span></h1>
                             <hr />
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10 ">
                                 {
