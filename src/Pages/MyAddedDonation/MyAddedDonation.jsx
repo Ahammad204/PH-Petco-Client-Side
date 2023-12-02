@@ -46,7 +46,7 @@ const MyAddedDonation = () => {
         <div>
             <div className="flex justify-evenly my-4">
 
-                <h2 className="text-3xl">Total Pets: {donation.length}</h2>
+                <h2 className="text-3xl">Total Campaign: {donation.length}</h2>
             </div>
             <div className="overflow-x-auto">
                 <table className="table table-zebra w-full">
