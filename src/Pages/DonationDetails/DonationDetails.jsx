@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-
-
 import Swal from "sweetalert2";
 import useAuth from "../../Hooks/useAuth";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 import SectionTitle from "../../Components/SectionTitle/SectionTitle";
+import Checkout from "../../Components/Payment/Chekout";
 
-
+const stripePromise = loadStripe(import.meta.env.VITE_PAYMENT_GATEWAY_PK);
 
 const DonationDetailsPage = () => {
 
@@ -24,6 +25,7 @@ const DonationDetailsPage = () => {
     const email = user.email;
     const names = user.displayName;
     const donationId = _id;
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -46,7 +48,7 @@ const DonationDetailsPage = () => {
             try {
                 const response = await fetch('http://localhost:5000/donationCampaign');
                 const data = await response.json();
-                setSuggestedDonations(data.slice(0, 3)); 
+                setSuggestedDonations(data.slice(0, 3));
             } catch (error) {
                 console.error('Error fetching suggested donations:', error);
             }
@@ -54,48 +56,10 @@ const DonationDetailsPage = () => {
 
         fetchSuggestedDonations();
     }, []);
-    const handleDonate = (e) => {
-
-        e.preventDefault();
-        const form = e.target;
 
 
 
-
-        const newAdopt = {}
-
-        console.log(newAdopt);
-
-        //send data to the server
-        fetch('http://localhost:5000/payment', {
-
-            method: 'POST',
-            headers: {
-
-                'content-type': 'application/json'
-
-            },
-            body: JSON.stringify(newAdopt)
-
-        })
-            .then(res => res.json())
-            .then(data => {
-
-                if (data.insertedId) {
-
-                    Swal.fire({
-                        position: "top-end",
-                        icon: "success",
-                        title: "Your Donation has been sent",
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-
-                }
-
-            })
-    }
-
+  
 
     return (
         <div>
@@ -109,7 +73,7 @@ const DonationDetailsPage = () => {
                         <div className="grid md:grid-cols-3 grid-cols-1 gap-4 mb-4">
                             {/* <button className="btn bg-transparent text-white hover:bg-[#f04336]  border-2 border-[#f04336] hover:border-none font-outfit">Category {category}</button> */}
 
-                            <button className="btn h-auto bg-transparent text-white hover:bg-[#f04336]  border-2 border-[#f04336] hover:border-none font-outfit"> Age: {maxDonationAmount}</button>
+                            <button className="btn h-auto bg-transparent text-white hover:bg-[#f04336]  border-2 border-[#f04336] hover:border-none font-outfit"> Max Donation Amount: ${maxDonationAmount}</button>
 
                             <button className="btn h-auto bg-transparent text-white hover:bg-[#f04336]  border-2 border-[#f04336] hover:border-none font-outfit"> {petName}</button>
 
@@ -140,15 +104,20 @@ const DonationDetailsPage = () => {
                                         {/* if there is a button in form, it will close the modal */}
                                         <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                                     </form>
-                                    <form onSubmit={handleDonate} className="mt-4">
-
+                                    <div  className="mt-4">
 
                                         <SectionTitle heading="Donate" subHeading="save pet"></SectionTitle>
 
+                                        <div>
+                                            <Elements stripe={stripePromise}>
+
+                                                <Checkout></Checkout>
+
+                                            </Elements>
+                                        </div>
 
 
-                                        <input className="btn btn-block text-white bg-[#E59285] hover:bg-[#E59285] " type="submit" value="Donate" />
-                                    </form>
+                                    </div>
                                 </div>
                             </dialog>
 
