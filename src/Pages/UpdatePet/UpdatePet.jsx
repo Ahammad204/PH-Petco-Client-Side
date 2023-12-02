@@ -67,7 +67,7 @@ const AddPet = () => {
                     email: email,
                     image: res.data.data.display_url,
                 };
-                console.log(res.data.data.display_url);
+                
 
                 const petRes = await axiosSecure.patch(`/pet/${_id}`, petItem);
                 console.log(petRes.data)
@@ -77,7 +77,7 @@ const AddPet = () => {
                     Swal.fire({
                         position: "top-end",
                         icon: "success",
-                        title: `${values.petName} is Updated to the menu.`,
+                        title: `${values.petName} is Updated to the PetListing.`,
                         showConfirmButton: false,
                         timer: 1500
                     });

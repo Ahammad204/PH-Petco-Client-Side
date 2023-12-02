@@ -8,12 +8,15 @@ import Swal from "sweetalert2";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useState } from "react";
+import { useLoaderData } from "react-router-dom";
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
 
-const DonationCampaign = () => {
+const UpdateDonationCampaign = () => {
+
+    const { _id, petName, maxDonationAmount, shortDescription, longDescription, donationLastDate } = useLoaderData();
 
     const axiosPublic = useAxiosPublic();
     const axiosSecure = useAxiosSecure();
@@ -34,12 +37,12 @@ const DonationCampaign = () => {
 
     const formik = useFormik({
         initialValues: {
-            petName: '',
-            maxDonationAmount: '',
-            shortDescription: '',
-            longDescription: '',
+            petName: petName,
+            maxDonationAmount: maxDonationAmount,
+            shortDescription: shortDescription,
+            longDescription: longDescription,
             donationImage: null,
-            addedDate: new Date(),
+            addedDate: donationLastDate,
         },
         validationSchema: Yup.object({
             petName: Yup.string().required('Pet name is required'),
@@ -51,15 +54,7 @@ const DonationCampaign = () => {
         }),
 
         onSubmit: async (values) => {
-            // Here you can send the data to your MongoDB server or API
-            console.log('Form data submitted:', values);
-
-
-            // Example: send data to MongoDB
-            // axios.post('/api/addPet', values)
-            // image upload to imgbb and then get an url
-
-            console.log(values)
+          
             const imageFile = { image: values.donationImage }
             const res = await axiosPublic.post(image_hosting_api, imageFile, {
                 headers: {
@@ -74,21 +69,21 @@ const DonationCampaign = () => {
                     shortDescription: values.shortDescription,
                     longDescription: values.longDescription,
                     donationCreateDate: date,
-                    donationLastDate:selectedDate,
+                    donationLastDate: selectedDate,
                     email: email,
-                    status:"active",
+                    status: "active",
                     image: res.data.data.display_url,
                 };
 
-                const donationRes = await axiosSecure.post('/donation', donationItem);
+                const donationRes = await axiosSecure.patch(`/donation/${_id}`, donationItem);
                 console.log(donationRes.data)
-                if (donationRes.data.insertedId) {
+                if (donationRes.data.modifiedCount > 0) {
                     // show success popup
 
                     Swal.fire({
                         position: "top-end",
                         icon: "success",
-                        title: `Your Campaign is added .`,
+                        title: `Your Campaign is Updated .`,
                         showConfirmButton: false,
                         timer: 1500
                     });
@@ -100,10 +95,10 @@ const DonationCampaign = () => {
 
     return (
         <div>
-            <SectionTitle heading="Add A Donation Campaign" subHeading="Make The world Beautiful"></SectionTitle>
+            <SectionTitle heading="Update A Donation Campaign" subHeading="Make The world Beautiful"></SectionTitle>
             <form onSubmit={formik.handleSubmit}>
-                   {/* Pet Name Input */}
-                   <div className="form-control w-full my-6">
+                {/* Pet Name Input */}
+                <div className="form-control w-full my-6">
                     <label className='label' htmlFor="petName"><span className="label-text">Pet Name*</span></label>
                     <input
                         type="text"
@@ -143,10 +138,11 @@ const DonationCampaign = () => {
                     <DatePicker
                         id="addedDate"
                         name="addedDate"
-                        selected={formik.values.addedDate}
+                        selected={selectedDate}
                         onChange={handleDateChange}
                         className="input input-bordered w-full"
                     />
+
 
                     {formik.touched.addedDate && formik.errors.addedDate ? (
                         <div>{formik.errors.addedDate}</div>
@@ -213,4 +209,4 @@ const DonationCampaign = () => {
     );
 };
 
-export default DonationCampaign;
+export default UpdateDonationCampaign;

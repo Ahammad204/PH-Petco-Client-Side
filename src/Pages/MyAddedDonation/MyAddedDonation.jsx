@@ -1,5 +1,5 @@
 
-import { FaEdit, FaPaw, FaTrashAlt, } from "react-icons/fa";
+import { FaEdit, FaPause,  FaPlay, } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -19,33 +19,9 @@ const MyAddedDonation = () => {
         setCurrentPage(page);
     };
 
-    //Handle Delete Pet
-    const handleDelete = id => {
-        Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
-        }).then((result) => {
-            if (result.isConfirmed) {
 
-                axiosSecure.delete(`/donation/${id}`)
-                    .then(res => {
-                        if (res.data.deletedCount > 0) {
-                            refetch();
-                            Swal.fire({
-                                title: "Deleted!",
-                                text: "Your Campaign has been deleted.",
-                                icon: "success"
-                            });
-                        }
-                    })
-            }
-        });
-    }
+
+    //Handle Update Donation Status
     const handleUpdateAdoption = donation => {
         axiosSecure.patch(`/donation/user/${donation._id}`)
             .then(res => {
@@ -55,7 +31,7 @@ const MyAddedDonation = () => {
                     Swal.fire({
                         position: "top-end",
                         icon: "success",
-                        title: `$Campaign is an Adopt Now!`,
+                        title: `Campaign status is Update Now!`,
                         showConfirmButton: false,
                         timer: 1500
                     });
@@ -68,7 +44,7 @@ const MyAddedDonation = () => {
     return (
         <div>
             <div className="flex justify-evenly my-4">
-              
+
                 <h2 className="text-3xl">Total Pets: {donation.length}</h2>
             </div>
             <div className="overflow-x-auto">
@@ -76,14 +52,13 @@ const MyAddedDonation = () => {
                     {/* head */}
                     <thead>
                         <tr>
-                            <th></th>
+                            <th>#</th>
                             <th>Image</th>
                             <th>Name</th>
-                            <th>Category</th>
-                            <th>Adoption Status</th>
+                            <th>Maximum Donation Amount</th>
+                            <th>Donation Progress Bar</th>
                             <th>Update</th>
-                            <th>Delete</th>
-                            <th>Adopted</th>
+                            <th>Donation Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -100,14 +75,14 @@ const MyAddedDonation = () => {
                                     </div>
                                 </td>
                                 <td>{donation?.petName}</td>
-                                <td>{donation?.category}</td>
+                                <td className="text-center">{donation?.maxDonationAmount}</td>
                                 <td>
-                                    {donation?.adopted === false ? 'Not Adopted' : 'Adopted'}
+                                    <progress className="progress progress-secondary w-56" value={0} max="100"></progress>
 
 
                                 </td>
                                 <td>
-                                    <Link to={`/dashboard/updateItem/${donation?._id}`}>
+                                    <Link to={`/dashboard/updateDonation/${donation?._id}`}>
                                         <button
                                             className="btn btn-ghost btn-lg ">
                                             <FaEdit className="text-red-600
@@ -115,18 +90,12 @@ const MyAddedDonation = () => {
                                         </button>
                                     </Link>
                                 </td>
-                                <td>
-                                    <button
-                                        onClick={() => handleDelete(donation?._id)}
-                                        className="btn btn-ghost btn-lg">
-                                        <FaTrashAlt className="text-red-600"></FaTrashAlt>
-                                    </button>
-                                </td>
+
                                 <td>
                                     <button
                                         onClick={() => handleUpdateAdoption(donation)}
                                         className="btn btn-ghost btn-lg">
-                                        <FaPaw className="text-red-600"></FaPaw>
+                                        {donation.status === 'active' ? <FaPause className="text-red-600" ></FaPause>: <FaPlay className="text-red-600"></FaPlay>}
                                     </button>
                                 </td>
                             </tr>)

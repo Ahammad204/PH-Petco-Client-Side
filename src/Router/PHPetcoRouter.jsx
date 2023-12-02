@@ -15,6 +15,7 @@ import DetailsPage from "../Pages/DetailsPage/DetailsPage";
 import DonationCampaign from "../Pages/DonationCampaign/DonationCampaign";
 import MyAddedDonation from "../Pages/MyAddedDonation/MyAddedDonation";
 import DonationsCampaign from "../Pages/DonationCampaignPage/DonationsCampaign/DonationsCampaign";
+import UpdateDonationCampaign from "../Pages/UpdateDonationCampaign/UpdateDonationCampaign";
 
 
 
@@ -94,6 +95,10 @@ export const router = createBrowserRouter([
         path: "/dashboard/addedDonation",
         element: <PrivateRoute><MyAddedDonation></MyAddedDonation></PrivateRoute>
 
+      },{
+        path: '/dashboard/updateDonation/:id',
+        element: <PrivateRoute><UpdateDonationCampaign></UpdateDonationCampaign></PrivateRoute>,
+        loader: ({ params }) => fetch(`http://localhost:5000/donation/${params.id}`)
       },
 
     ]
