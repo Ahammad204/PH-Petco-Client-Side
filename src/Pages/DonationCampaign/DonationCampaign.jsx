@@ -34,6 +34,7 @@ const DonationCampaign = () => {
 
     const formik = useFormik({
         initialValues: {
+            petName: '',
             maxDonationAmount: '',
             shortDescription: '',
             longDescription: '',
@@ -41,6 +42,7 @@ const DonationCampaign = () => {
             addedDate: new Date(),
         },
         validationSchema: Yup.object({
+            petName: Yup.string().required('Pet name is required'),
             maxDonationAmount: Yup.number().positive('Amount must be a positive number').required('This Field is required'),
             shortDescription: Yup.string().required('Short Description is required'),
             longDescription: Yup.string().required('Long Description is required'),
@@ -67,6 +69,7 @@ const DonationCampaign = () => {
             if (res.data.success) {
                 // now send the menu item data to the server with the image url
                 const donationItem = {
+                    petName: values.petName,
                     maxDonationAmount: parseFloat(values.maxDonationAmount),
                     shortDescription: values.shortDescription,
                     longDescription: values.longDescription,
@@ -98,6 +101,23 @@ const DonationCampaign = () => {
         <div>
             <SectionTitle heading="Add A Donation Campaign" subHeading="Make The world Beautiful"></SectionTitle>
             <form onSubmit={formik.handleSubmit}>
+                   {/* Pet Name Input */}
+                   <div className="form-control w-full my-6">
+                    <label className='label' htmlFor="petName"><span className="label-text">Pet Name*</span></label>
+                    <input
+                        type="text"
+                        placeholder="Enter Pet Name"
+                        id="petName"
+                        name="petName"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.petName}
+                        className="input input-bordered w-full"
+                    />
+                    {formik.touched.petName && formik.errors.petName ? (
+                        <div>{formik.errors.petName}</div>
+                    ) : null}
+                </div>
                 {/* Donation Maximum Input */}
                 <div className="form-control w-full my-6">
                     <label className='label' htmlFor="maxDonationAmount"><span className="label-text">Maximum Donation Amount*</span></label>

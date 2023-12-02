@@ -11,7 +11,7 @@ const Navbar = () => {
 
         <li className="m-2 md:mr-5 text-lg hover:text-[#f04336]"><NavLink to="/">Home</NavLink></li>
         <li className="m-2 md:mr-5 text-lg hover:text-[#f04336]"><NavLink to="/petlisting">Pet Listing</NavLink></li>
-        <li className="m-2 md:mr-5 text-lg hover:text-[#f04336]"><NavLink to="/">Donation Campaign</NavLink></li>
+        <li className="m-2 md:mr-5 text-lg hover:text-[#f04336]"><NavLink to="/donationCampaign">Donation Campaign</NavLink></li>
 
     </>
 

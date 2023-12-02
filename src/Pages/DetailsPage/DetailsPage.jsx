@@ -24,7 +24,7 @@ const DetailsPage = () => {
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
-            const response = await fetch(`http://localhost:5000/pet`);
+            const response = await fetch(`http://localhost:5000/petListing`);
             const data = await response.json();
             const filteredProducts = data.filter((item) => item._id === id);
             setPetDetails(filteredProducts[0]);
