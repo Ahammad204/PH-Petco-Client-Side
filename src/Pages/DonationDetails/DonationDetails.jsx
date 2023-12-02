@@ -14,6 +14,7 @@ const DonationDetailsPage = () => {
 
     const { id } = useParams()
     const [donationDetails, setDonationDetails] = useState();
+    const [suggestedDonations, setSuggestedDonations] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
     const { _id, petName, maxDonationAmount, longDescription, image, email: ownerEmail } = donationDetails || {}
@@ -39,6 +40,20 @@ const DonationDetailsPage = () => {
         fetchData();
     }, [email, donationId, id]);
 
+
+    useEffect(() => {
+        const fetchSuggestedDonations = async () => {
+            try {
+                const response = await fetch('http://localhost:5000/donationCampaign');
+                const data = await response.json();
+                setSuggestedDonations(data.slice(0, 3)); 
+            } catch (error) {
+                console.error('Error fetching suggested donations:', error);
+            }
+        };
+
+        fetchSuggestedDonations();
+    }, []);
     const handleDonate = (e) => {
 
         e.preventDefault();
@@ -128,9 +143,9 @@ const DonationDetailsPage = () => {
                                     <form onSubmit={handleDonate} className="mt-4">
 
 
-                                <SectionTitle heading="Donate" subHeading="save pet"></SectionTitle>
+                                        <SectionTitle heading="Donate" subHeading="save pet"></SectionTitle>
 
-                                
+
 
                                         <input className="btn btn-block text-white bg-[#E59285] hover:bg-[#E59285] " type="submit" value="Donate" />
                                     </form>
@@ -140,6 +155,19 @@ const DonationDetailsPage = () => {
                         </div>
 
                     </div>
+                </div>
+            </div>
+
+            <div className="container mx-auto mt-8">
+                <h2 className="text-2xl font-bold mb-4">Suggested Donations</h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {suggestedDonations.map((donation) => (
+                        <div key={donation._id} className="bg-white p-4 rounded-md shadow-md">
+                            <h3 className="text-lg font-semibold mb-2">{donation.petName}</h3>
+                            <p className="text-gray-600">{donation.shortDescription}</p>
+                            <Link to={`/donationDetails/${donation._id}`} className="text-blue-500 mt-2 block">View Details</Link>
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>
