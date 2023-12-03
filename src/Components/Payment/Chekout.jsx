@@ -236,7 +236,7 @@ const Checkout = ({ _id, image, petName }) => {
             >
                 Donate
             </button>
-            {/* <input  type="submit" value="Donate" /> */}
+            
             <p className="text-red-600">
                 {error}
             </p>

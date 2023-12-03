@@ -18,7 +18,7 @@ const DonationDetailsPage = () => {
     const [suggestedDonations, setSuggestedDonations] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
-    const { _id, petName, maxDonationAmount, longDescription, image, email: ownerEmail } = donationDetails || {}
+    const { _id, petName, maxDonationAmount, longDescription, image, email: ownerEmail, status } = donationDetails || {}
 
     const { user } = useAuth();
 
@@ -59,7 +59,7 @@ const DonationDetailsPage = () => {
 
 
 
-  
+
 
     return (
         <div>
@@ -83,7 +83,8 @@ const DonationDetailsPage = () => {
 
                             <button
 
-                                className="btn"
+                                className="btn mt-10 btn-block border-none text-white bg-[#E59285] hover:bg-[#E59285] "
+                                disabled={status === 'paused'}
                                 onClick={() => {
 
                                     document.getElementById('my_modal_1').showModal();
@@ -104,7 +105,7 @@ const DonationDetailsPage = () => {
                                         {/* if there is a button in form, it will close the modal */}
                                         <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                                     </form>
-                                    <div  className="mt-4">
+                                    <div className="mt-4">
 
                                         <SectionTitle heading="Donate" subHeading="save pet"></SectionTitle>
 

@@ -21,7 +21,7 @@ const DonationsCampaign = () => {
         if (data.length === 0) {
             setHasMore(false);
         } else {
-            const filteredProducts = data.filter((item) => item.status === "active");
+            const filteredProducts = data.filter((item) => item.status );
 
             setDonation((prevPet) => (pageNumber === 1 ? filteredProducts : [...prevPet, ...filteredProducts]));
         }
