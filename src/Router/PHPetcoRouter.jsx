@@ -21,6 +21,7 @@ import MyDonation from "../Pages/MyDonation/Mydonation";
 import AdoptionRequest from "../Pages/AdoptionRequest/AdoptionRequest";
 import AdminRoute from './AdminRouter';
 import AllUser from "../Pages/AllUser/AllUser";
+import AllPets from "../Pages/AllPets/AllPets";
 
 
 
@@ -126,6 +127,11 @@ export const router = createBrowserRouter([
 
         path:"/dashboard/users",
         element:<PrivateRoute><AdminRoute><AllUser></AllUser></AdminRoute></PrivateRoute>
+
+      },{
+
+        path:"/dashboard/allPets",
+        element:<PrivateRoute><AdminRoute><AllPets></AllPets></AdminRoute></PrivateRoute>
 
       }
 

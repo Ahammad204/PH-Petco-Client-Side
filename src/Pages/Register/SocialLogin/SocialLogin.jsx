@@ -33,7 +33,7 @@ const SocialLogin = () => {
                             text: 'Your account is banned. Please contact support for assistance.',
                         });
                          return;
-                    } } else{
+                    }else{
 
                         const userInfo = {
                             email: result.user?.email,
@@ -48,7 +48,7 @@ const SocialLogin = () => {
                                 navigate(location?.state ? location.state : '/');
                             })
 
-                    }
+                    } } 
             })
             
 
