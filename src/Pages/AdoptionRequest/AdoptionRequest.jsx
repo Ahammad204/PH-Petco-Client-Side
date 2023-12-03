@@ -50,7 +50,7 @@ const AdoptionRequest = () => {
                     Swal.fire({
                         position: "top-end",
                         icon: "success",
-                        title: `Adopt request accepted!`,
+                        title: `Adopt request Rejected!`,
                         showConfirmButton: false,
                         timer: 1500
                     });
