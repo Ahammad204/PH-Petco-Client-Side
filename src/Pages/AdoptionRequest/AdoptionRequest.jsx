@@ -1,5 +1,5 @@
 
-import {  FaPause, FaPlay, } from "react-icons/fa";
+
 import Swal from "sweetalert2";
 
 import { useState } from "react";
@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Pagination } from "@mui/material";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useAdoptDonation from "../../Hooks/useAdoptRequest";
+
 
 
 const AdoptionRequest = () => {
@@ -21,9 +22,9 @@ const AdoptionRequest = () => {
 
 
 
-    //Handle Update Donation Status
-    const handleRefund = donation => {
-        axiosSecure.patch(`/donation/user/${donation._id}`)
+    //Handle Adoption Accept Status
+    const handleAccept = adoptReq => {
+        axiosSecure.patch(`/adopt/accept/${adoptReq._id}`)
             .then(res => {
                 console.log(res.data)
                 if (res.data.modifiedCount > 0) {
@@ -31,7 +32,25 @@ const AdoptionRequest = () => {
                     Swal.fire({
                         position: "top-end",
                         icon: "success",
-                        title: `Campaign status is Update Now!`,
+                        title: `Adopt request accepted!`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            })
+    }
+
+    //Handle Adoption Reject Status
+    const handleReject = adoptReq => {
+        axiosSecure.patch(`/adopt/reject/${adoptReq._id}`)
+            .then(res => {
+                console.log(res.data)
+                if (res.data.modifiedCount > 0) {
+                    refetch();
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: `Adopt request accepted!`,
                         showConfirmButton: false,
                         timer: 1500
                     });
@@ -57,7 +76,8 @@ const AdoptionRequest = () => {
                             <th>Email</th>
                             <th>Phone</th>
                             <th>Location</th>
-                            <th>Refund</th>
+                            <th>Accept</th>
+                            <th>Reject</th>
                            
                         </tr>
                     </thead>
@@ -73,9 +93,16 @@ const AdoptionRequest = () => {
 
                                 <td>
                                     <button
-                                        onClick={() => handleRefund(adoptRequest)}
-                                        className="btn btn-ghost btn-lg">
-                                        {adoptRequest.status === 'active' ? <FaPause className="text-red-600" ></FaPause> : <FaPlay className="text-red-600"></FaPlay>}
+                                        onClick={() => handleAccept(adoptRequest)}
+                                        className="btn btn-ghost btn-lg text-red-600">
+                                         Accept
+                                    </button>
+                                </td>
+                                <td>
+                                    <button
+                                        onClick={() => handleReject(adoptRequest)}
+                                        className="btn btn-ghost btn-lg text-red-600">
+                                         Reject
                                     </button>
                                 </td>
 

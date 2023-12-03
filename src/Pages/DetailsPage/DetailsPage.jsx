@@ -45,9 +45,9 @@ const DetailsPage = () => {
         const email = form.email?.value;
         const phone = form.phoneNumber?.value;
         const address = form.address?.value;
+        const status = 'pending'
 
-
-        const newAdopt = { names, email, phone, address, ownerEmail }
+        const newAdopt = { names, email, phone, address, ownerEmail,status }
 
         console.log(newAdopt);
 
