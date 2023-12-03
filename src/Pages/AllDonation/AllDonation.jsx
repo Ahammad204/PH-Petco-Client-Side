@@ -1,25 +1,44 @@
 
-import { FaEdit, FaPaw, FaTrashAlt, } from "react-icons/fa";
+import { FaEdit, FaPause, FaPlay, FaTrashAlt, } from "react-icons/fa";
 import Swal from "sweetalert2";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 // import ReactPaginate from "react-paginate";
 import { Pagination } from "@mui/material";
-import useAllPets from "../../Hooks/usePets";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useAllDonation from "../../Hooks/useAllDonation";
 
 
-const AllPets = () => {
-    const [allPets, refetch] = useAllPets()
+const AllDonation = () => {
+    const [allDonation, refetch] = useAllDonation()
     const axiosSecure = useAxiosSecure();
     const [currentPage, setCurrentPage] = useState(1);
-    const petsPerPage = 10;
+    const DonationsPerPage = 10;
 
     const handlePageChange = (event, page) => {
         setCurrentPage(page);
     };
 
-    //Handle Delete Pet
+
+
+    //Handle Update Donation Status
+    const handleUpdateAdoption = donation => {
+        axiosSecure.patch(`/donation/user/${donation._id}`)
+            .then(res => {
+                console.log(res.data)
+                if (res.data.modifiedCount > 0) {
+                    refetch();
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: `Campaign status is Update Now!`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            })
+    }
+
     const handleDelete = id => {
         Swal.fire({
             title: "Are you sure?",
@@ -32,7 +51,7 @@ const AllPets = () => {
         }).then((result) => {
             if (result.isConfirmed) {
 
-                axiosSecure.delete(`/pet/${id}`)
+                axiosSecure.delete(`/donations/${id}`)
                     .then(res => {
                         if (res.data.deletedCount > 0) {
                             refetch();
@@ -46,68 +65,57 @@ const AllPets = () => {
             }
         });
     }
-    const handleUpdateAdoption = pet => {
-        axiosSecure.patch(`/pet/admin/${pet._id}`)
-            .then(res => {
-                console.log(res.data)
-                if (res.data.modifiedCount > 0) {
-                    refetch();
-                    Swal.fire({
-                        position: "top-end",
-                        icon: "success",
-                        title: `${pet.petName} is an Adopt Now!`,
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                }
-            })
-    }
 
-    const offset = (currentPage - 1) * petsPerPage;
-    const currentPets = allPets.slice(offset, offset + petsPerPage);
+
+    const offset = (currentPage - 1) * DonationsPerPage;
+    const currentDonations = allDonation.slice(offset, offset + DonationsPerPage);
+
+
+
+
+
     return (
         <div>
             <div className="flex justify-evenly my-4">
-              
-                <h2 className="text-3xl">Total Pets: {allPets.length}</h2>
+
+                <h2 className="text-3xl">Total Campaign: {allDonation.length}</h2>
             </div>
             <div className="overflow-x-auto">
                 <table className="table table-zebra w-full">
                     {/* head */}
                     <thead>
                         <tr>
-                            <th></th>
+                            <th>#</th>
                             <th>Image</th>
                             <th>Name</th>
-                            <th>Category</th>
-                            <th>Adoption Status</th>
+                            <th>Maximum Donation Amount</th>
+                            <th>Donation Progress Bar</th>
                             <th>Update</th>
-                            <th>Delete</th>
-                            <th>Adopted</th>
+                            <th>Donation Status</th>
+                            <th>Donator</th>
                         </tr>
                     </thead>
                     <tbody>
                         {
-                            currentPets?.map((pet, index) => <tr key={pet._id}>
+                            currentDonations?.map((donation, index) => <tr key={donation._id}>
                                 <th>{index + 1}</th>
                                 <td>
                                     <div className="flex items-center gap-3">
                                         <div className="avatar">
                                             <div className="mask mask-squircle w-12 h-12">
-                                                <img src={pet.image} alt="Avatar Tailwind CSS Component" />
+                                                <img src={donation?.image} alt="Avatar Tailwind CSS Component" />
                                             </div>
                                         </div>
                                     </div>
                                 </td>
-                                <td>{pet.petName}</td>
-                                <td>{pet.category}</td>
+                                <td>{donation?.petName}</td>
+                                <td className="text-center">{donation?.maxDonationAmount}</td>
                                 <td>
-                                    {pet.adopted === false ? 'Not Adopted' : 'Adopted'}
-
+                                    <progress className="progress progress-secondary w-56" value={donation?.donatedParcentage} max="100"></progress>
 
                                 </td>
                                 <td>
-                                    <Link to={`/dashboard/updateItem/${pet._id}`}>
+                                    <Link to={`/dashboard/updateDonation/${donation?._id}`}>
                                         <button
                                             className="btn btn-ghost btn-lg ">
                                             <FaEdit className="text-red-600
@@ -115,18 +123,19 @@ const AllPets = () => {
                                         </button>
                                     </Link>
                                 </td>
+
                                 <td>
                                     <button
-                                        onClick={() => handleDelete(pet._id)}
+                                        onClick={() => handleUpdateAdoption(donation)}
                                         className="btn btn-ghost btn-lg">
-                                        <FaTrashAlt className="text-red-600"></FaTrashAlt>
+                                        {donation.status === 'active' ? <FaPause className="text-red-600" ></FaPause> : <FaPlay className="text-red-600"></FaPlay>}
                                     </button>
                                 </td>
                                 <td>
                                     <button
-                                        onClick={() => handleUpdateAdoption(pet)}
+                                        onClick={() => handleDelete(donation._id)}
                                         className="btn btn-ghost btn-lg">
-                                        <FaPaw className="text-red-600"></FaPaw>
+                                        <FaTrashAlt className="text-red-600"></FaTrashAlt>
                                     </button>
                                 </td>
                             </tr>)
@@ -134,10 +143,10 @@ const AllPets = () => {
 
                     </tbody>
                 </table>
-                {allPets.length > petsPerPage && (
+                {allDonation.length > DonationsPerPage && (
                     <div className="join">
                         <Pagination
-                            count={Math.ceil(allPets.length / petsPerPage)}
+                            count={Math.ceil(allDonation.length / DonationsPerPage)}
                             page={currentPage}
                             onChange={handlePageChange}
                             variant="outlined"
@@ -150,4 +159,4 @@ const AllPets = () => {
     );
 };
 
-export default AllPets;
+export default AllDonation;
