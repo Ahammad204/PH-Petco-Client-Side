@@ -9,21 +9,46 @@ import Swal from "sweetalert2";
 
 
 
-const Checkout = ({ image, petName }) => {
+const Checkout = ({ _id, image, petName }) => {
 
     const [error, setError] = useState('')
-    // const [donation,setDonation] = useState()
-    const [clientSecret,setClientSecret] = useState('')
+    const [donated, setDonated] = useState()
+    const [clientSecret, setClientSecret] = useState('')
     const [loading, setLoading] = useState(false);
     const stripe = useStripe()
     const elements = useElements();
     const axiosSecure = useAxiosSecure()
     const { user } = useAuth();
 
+
     // const email = user.email;
     const names = user.displayName;
     const email = user.email;
-   
+
+    axiosSecure.get('/donated', {
+        params: {
+            petName: petName,
+        },
+    })
+        .then(response => {
+            // console.log('Response:', response.data[0]);
+            setDonated(response.data[0]);
+        })
+        .catch(error => {
+            console.error('Error:', error.message);
+        });
+
+    const maxDonationAmount = donated?.maxDonationAmount;
+    // console.log(maxDonationAmount)
+
+    const handleDonationChange = (event) => {
+        const newDonation = parseFloat(event.target.value);
+        if (donated.donatedAmount + newDonation > maxDonationAmount) {
+            setError(`Total donation amount exceeds the maximum limit of $${maxDonationAmount}`);
+        } else {
+            setError('');
+        }
+    };
 
     const handleSubmit = async (event) => {
 
@@ -32,7 +57,7 @@ const Checkout = ({ image, petName }) => {
         const form = event.target;
 
         const donation = form.donation?.value;
-       
+
 
         // setDonation(donations)
 
@@ -80,12 +105,12 @@ const Checkout = ({ image, petName }) => {
         }
 
         // Confirm Payment 
-        const { paymentIntent, error:ConfirmError} = await stripe.confirmCardPayment(clientSecret,{
+        const { paymentIntent, error: ConfirmError } = await stripe.confirmCardPayment(clientSecret, {
 
-            payment_method:{
+            payment_method: {
 
                 card: card,
-                billing_details:{
+                billing_details: {
 
                     email: email || 'Unknown',
                     name: names || 'Unknown'
@@ -96,14 +121,14 @@ const Checkout = ({ image, petName }) => {
 
         })
 
-        if(ConfirmError){
+        if (ConfirmError) {
 
             console.log('Confirm Error')
 
-        }else{
+        } else {
 
             console.log('Payment Intent', paymentIntent)
-            if(paymentIntent.status === 'succeeded'){
+            if (paymentIntent.status === 'succeeded') {
 
                 console.log('Transaction Id', paymentIntent.id)
                 Swal.fire({
@@ -112,21 +137,28 @@ const Checkout = ({ image, petName }) => {
                     title: "Congratulation! You Save A Pet",
                     showConfirmButton: false,
                     timer: 1500
-                  });
+                });
 
-                  const donate  = {
+                const donate = {
 
                     donatorEmail: email,
                     donateAmount: parseInt(donation),
                     transactionId: paymentIntent.id,
                     donatePetImage: image,
-                    donatePetName:petName, 
+                    donatePetName: petName,
 
-                  }
+                }
 
-                  const res = await axiosSecure.post('/payment',donate)
-                  console.log(res)
+                const res = await axiosSecure.post('/payment', donate)
+                console.log(res)
 
+                const donatedItem = {
+
+                    donatedAmount: parseFloat(donated.donatedAmount) + parseFloat(donation)
+
+                }
+                const donatedRes = await axiosSecure.patch(`/donated/${donated._id}`, donatedItem);
+                console.log(donatedRes.data.data)
 
             }
 
@@ -155,8 +187,14 @@ const Checkout = ({ image, petName }) => {
                         <span className="label-text">Enter Your Donation Amount</span>
                     </label>
                     <label className="input-group">
-
-                        <input type="number" required name="donation" placeholder="Enter Your Donation Amount" className="input input-bordered w-full" />
+                        <input
+                            type="number"
+                            required
+                            name="donation"
+                            placeholder="Enter Your Donation Amount"
+                            className="input input-bordered w-full"
+                            onChange={handleDonationChange}
+                        />
                     </label>
                 </div>
             </div>
@@ -177,7 +215,11 @@ const Checkout = ({ image, petName }) => {
                     },
                 }}
             />
-            <button className="btn mt-10 btn-block text-white bg-[#E59285] hover:bg-[#E59285] " type="submit" disabled={!stripe || loading }>
+            <button
+                className="btn mt-10 btn-block text-white bg-[#E59285] hover:bg-[#E59285] "
+                type="submit"
+                disabled={!stripe || loading || (error !== '')}
+            >
                 Donate
             </button>
             {/* <input  type="submit" value="Donate" /> */}

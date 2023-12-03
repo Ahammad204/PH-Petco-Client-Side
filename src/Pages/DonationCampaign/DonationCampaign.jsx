@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import Swal from "sweetalert2";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { useState } from "react";
+import {  useState } from "react";
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
@@ -25,6 +25,8 @@ const DonationCampaign = () => {
     // console.log(date)
     // Formik initialization
     // console.log(selectedDate)
+
+
 
     const handleDateChange = (date) => {
         console.log('Selected Date:', date);
@@ -82,6 +84,18 @@ const DonationCampaign = () => {
 
                 const donationRes = await axiosSecure.post('/donation', donationItem);
                 console.log(donationRes.data)
+
+                const donated = {
+
+                    petName: values.petName,
+                    maxDonationAmount: parseFloat(values.maxDonationAmount),
+                    donatedAmount: parseFloat(0),
+
+                }
+
+                const donatedRes = await axiosSecure.post('/donated', donated);
+                console.log(donatedRes)
+                
                 if (donationRes.data.insertedId) {
                     // show success popup
 
