@@ -19,6 +19,8 @@ import UpdateDonationCampaign from "../Pages/UpdateDonationCampaign/UpdateDonati
 import DonationDetailsPage from "../Pages/DonationDetails/DonationDetails";
 import MyDonation from "../Pages/MyDonation/Mydonation";
 import AdoptionRequest from "../Pages/AdoptionRequest/AdoptionRequest";
+import AdminRoute from './AdminRouter';
+import AllUser from "../Pages/AllUser/AllUser";
 
 
 
@@ -116,6 +118,14 @@ export const router = createBrowserRouter([
 
         path:'/dashboard/adoptionRequest',
         element:<PrivateRoute><AdoptionRequest></AdoptionRequest></PrivateRoute>
+
+      },
+
+      //Admin Router
+      {
+
+        path:"/dashboard/users",
+        element:<PrivateRoute><AdminRoute><AllUser></AllUser></AdminRoute></PrivateRoute>
 
       }
 
