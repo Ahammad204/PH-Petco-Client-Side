@@ -79,7 +79,12 @@ const Login = () => {
                         });
                 })
                 .catch(error => {
-                    toast.error('Please Check Your Password or Email Again');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Check Your Email And Password',
+                    });
+                    
                     console.log(error);
                 });
 
