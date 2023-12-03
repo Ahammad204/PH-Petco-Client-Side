@@ -40,8 +40,15 @@ const MyAddedDonation = () => {
             })
     }
 
+
+
     const offset = (currentPage - 1) * DonationsPerPage;
     const currentDonations = donation.slice(offset, offset + DonationsPerPage);
+
+   
+
+      
+
     return (
         <div>
             <div className="flex justify-evenly my-4">
@@ -79,8 +86,7 @@ const MyAddedDonation = () => {
                                 <td>{donation?.petName}</td>
                                 <td className="text-center">{donation?.maxDonationAmount}</td>
                                 <td>
-                                    <progress className="progress progress-secondary w-56" value={0} max="100"></progress>
-
+                                    <progress className="progress progress-secondary w-56" value={donation?.donatedParcentage} max="100"></progress>
 
                                 </td>
                                 <td>
@@ -128,7 +134,7 @@ const MyAddedDonation = () => {
                                         </div>
                                     </dialog>
 
-                                    
+
                                 </td>
                             </tr>)
                         }

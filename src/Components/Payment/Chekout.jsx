@@ -152,13 +152,27 @@ const Checkout = ({ _id, image, petName }) => {
                 const res = await axiosSecure.post('/payment', donate)
                 console.log(res)
 
+                const donatedAmounts = (donated.donatedAmount === 0? donation: donated.donatedAmount)
+                
+                const donationPercentage = (parseFloat(donatedAmounts) / maxDonationAmount) * 100;
+
+             
+                console.log('Donation Percentage:', donationPercentage);
+
+
                 const donatedItem = {
 
-                    donatedAmount: parseFloat(donated.donatedAmount) + parseFloat(donation)
+                    donatedAmount: parseFloat(donated.donatedAmount) + parseFloat(donation),
 
                 }
                 const donatedRes = await axiosSecure.patch(`/donated/${donated._id}`, donatedItem);
-                console.log(donatedRes.data.data)
+
+                const donatedItemParcentage = {
+
+                    donatedParcentage:donationPercentage
+
+                }
+                const donatedPRes = await axiosSecure.patch(`/donation/parcentage/${_id}`, donatedItemParcentage);
 
             }
 

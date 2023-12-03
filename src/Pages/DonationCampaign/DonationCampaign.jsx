@@ -80,6 +80,7 @@ const DonationCampaign = () => {
                     ownerEmail: email,
                     status:"active",
                     image: res.data.data.display_url,
+                    donatedParcentage:parseFloat(0)
                 };
 
                 const donationRes = await axiosSecure.post('/donation', donationItem);
@@ -90,7 +91,7 @@ const DonationCampaign = () => {
                     petName: values.petName,
                     maxDonationAmount: parseFloat(values.maxDonationAmount),
                     donatedAmount: parseFloat(0),
-
+                    
                 }
 
                 const donatedRes = await axiosSecure.post('/donated', donated);
