@@ -37,7 +37,23 @@ const AllUser = () => {
                 }
             })
     }
-
+ //Handle Make Admin Status
+ const handleUserBan = user => {
+    axiosSecure.patch(`/users/ban/${user._id}`)
+        .then(res => {
+            console.log(res.data)
+            if (res.data.modifiedCount > 0) {
+                refetch();
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: `User Status is Update Now!`,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        })
+}
 
 
     const offset = (currentPage - 1) * DonationsPerPage;
@@ -94,6 +110,7 @@ const AllUser = () => {
                                 <td>
 
                                     <button
+                                    onClick={() => handleUserBan(user)}
                                         className="btn btn-ghost btn-lg ">
                                         <FaBan className="text-red-600
                                         "></FaBan>
