@@ -68,7 +68,7 @@ const AdoptionRequest = () => {
                     });
                 }
             })
-        axiosSecure.patch(`/pet/reject/${adoptReq._id}`)
+        return axiosSecure.patch(`/pet/reject/${adoptReq?.petsId}`)
     }
 
     const offset = (currentPage - 1) * adoptPerPage;
