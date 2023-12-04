@@ -1,7 +1,8 @@
-import {  FaHome, FaUsers, } from "react-icons/fa";
+import { FaHome, FaUsers, } from "react-icons/fa";
 import { NavLink, Outlet } from "react-router-dom";
 import useAdmin from "../../Hooks/useAdmin";
 import { FaHandHoldingDollar, FaPaw } from "react-icons/fa6";
+import useAuth from "../../Hooks/useAuth";
 
 
 
@@ -10,6 +11,7 @@ const Dashboard = () => {
 
     // TODO: get isAdmin value from the database
     const [isAdmin] = useAdmin();
+    const { user } = useAuth()
 
     return (
         <div className="md:flex">
@@ -18,11 +20,11 @@ const Dashboard = () => {
                 <ul className="menu p-4">
                     {
                         isAdmin ? <>
-                            <li>
-                                <NavLink to="/dashboard/adminHome">
-                                    <FaHome></FaHome>
-                                    Admin Home</NavLink>
+                            <li className="text-center mb-3">
+
+                                Admin Home
                             </li>
+                            <hr />
                             <li>
                                 <NavLink to="/dashboard/users">
                                     <FaUsers></FaUsers>
@@ -46,17 +48,17 @@ const Dashboard = () => {
                             </>
                     }
                     {/* shared nav links */}
+                    <li className="text-center mb-3">
 
+                        User Home
+                    </li>
+                    <hr />
                     <li>
                         <NavLink to="/">
                             <FaHome></FaHome>
                             Home</NavLink>
                     </li>
-                    <li>
-                        <NavLink to="/dashboard/userHome">
-                            <FaHome></FaHome>
-                            User Home</NavLink>
-                    </li>
+
                     <li>
                         <NavLink to="/dashboard/addPet">
                             <FaPaw></FaPaw>
@@ -64,27 +66,27 @@ const Dashboard = () => {
                     </li>
                     <li>
                         <NavLink to="/dashboard/addedPet">
-                        <FaPaw></FaPaw>
+                            <FaPaw></FaPaw>
                             My Added Pets </NavLink>
                     </li>
                     <li>
                         <NavLink to="/dashboard/adoptionRequest">
-                        <FaHandHoldingDollar></FaHandHoldingDollar>
+                            <FaHandHoldingDollar></FaHandHoldingDollar>
                             Adoption Request</NavLink>
                     </li>
                     <li>
                         <NavLink to="/dashboard/createDonationCampaign">
-                        <FaHandHoldingDollar></FaHandHoldingDollar>
+                            <FaHandHoldingDollar></FaHandHoldingDollar>
                             Create Donation Campaign</NavLink>
                     </li>
                     <li>
                         <NavLink to="/dashboard/addedDonation">
-                        <FaHandHoldingDollar></FaHandHoldingDollar>
+                            <FaHandHoldingDollar></FaHandHoldingDollar>
                             My Donation Campaign</NavLink>
                     </li>
                     <li>
                         <NavLink to="/dashboard/myDonation">
-                        <FaHandHoldingDollar></FaHandHoldingDollar>
+                            <FaHandHoldingDollar></FaHandHoldingDollar>
                             My Donation </NavLink>
                     </li>
 
@@ -93,6 +95,7 @@ const Dashboard = () => {
             </div>
             {/* dashboard content */}
             <div className="flex-1 p-8">
+                <p className="text-4xl uppercase border-y-4 py-4 text-center"> Welcome {user.displayName}</p>
                 <Outlet></Outlet>
             </div>
         </div>

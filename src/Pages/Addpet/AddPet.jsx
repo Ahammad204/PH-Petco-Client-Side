@@ -7,6 +7,7 @@ import useAxiosPublic from '../../Hooks/useAxiosPublic';
 import Swal from 'sweetalert2';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import useAuth from '../../Hooks/useAuth';
+import { useState } from 'react';
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
@@ -16,6 +17,7 @@ const AddPet = () => {
     const axiosSecure = useAxiosSecure();
     const { user } = useAuth()
     const email = user.email
+    const [selectedCategory, setSelectedCategory] = useState(null);
 
     // Formik initialization
     const formik = useFormik({
@@ -47,7 +49,7 @@ const AddPet = () => {
             // Example: send data to MongoDB
             // axios.post('/api/addPet', values)
             // image upload to imgbb and then get an url
-            
+
             console.log(values)
             const imageFile = { image: values.petImage }
             const res = await axiosPublic.post(image_hosting_api, imageFile, {
@@ -66,7 +68,7 @@ const AddPet = () => {
                     longDescription: values.longDescription,
                     date: date,
                     adopted: false,
-                    email:email,
+                    email: email,
                     image: res.data.data.display_url,
                 };
                 console.log(res.data.data.display_url);
@@ -89,6 +91,11 @@ const AddPet = () => {
         },
     });
 
+    const handleCategoryChange = (selectedOption) => {
+        // `selectedOption` is an object with `value` and `label` properties
+        setSelectedCategory(selectedOption);
+        formik.setFieldValue('category', selectedOption.value)
+    };
     return (
         <div>
             <SectionTitle heading="Add A Pet" subHeading="Cure The World"></SectionTitle>
@@ -142,14 +149,14 @@ const AddPet = () => {
                             { value: 'birds', label: 'Birds' },
                             { value: 'horses', label: 'Horse' },
                         ]}
-                        onChange={(selectedOption) => {
-                            formik.setFieldValue('category', selectedOption.value);
-                            // console.log('Selected Option:', selectedOption);
-                            // console.log('Formik Values:', formik.values);
-                        }}
+                        // onChange={(selectedOption) => {
+                        //     formik.setFieldValue('category', selectedOption.value);
+                          
+                        // }}
+                        onChange={handleCategoryChange}
 
                         onBlur={formik.handleBlur}
-                        value={formik.values.category}
+                        value={selectedCategory}
                         className="react-select"
                     />
                     {formik.touched.category && formik.errors.category ? (

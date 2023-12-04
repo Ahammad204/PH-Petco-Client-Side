@@ -8,6 +8,7 @@ import { Pagination } from "@mui/material";
 import useAddedDonation from "../../Hooks/useAddedDonation";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { FaHandHoldingDollar } from "react-icons/fa6";
+import Donator from "../../Components/Donator/Donator";
 
 
 const MyAddedDonation = () => {
@@ -23,7 +24,7 @@ const MyAddedDonation = () => {
 
 
     //Handle Update Donation Status
-    const handleUpdateAdoption = donation => {
+    const handleUpdateDonationStatus = donation => {
         axiosSecure.patch(`/donation/user/${donation._id}`)
             .then(res => {
                 console.log(res.data)
@@ -45,9 +46,8 @@ const MyAddedDonation = () => {
     const offset = (currentPage - 1) * DonationsPerPage;
     const currentDonations = donation.slice(offset, offset + DonationsPerPage);
 
-   
 
-      
+
 
     return (
         <div>
@@ -101,7 +101,7 @@ const MyAddedDonation = () => {
 
                                 <td>
                                     <button
-                                        onClick={() => handleUpdateAdoption(donation)}
+                                        onClick={() => handleUpdateDonationStatus(donation)}
                                         className="btn btn-ghost btn-lg">
                                         {donation.status === 'active' ? <FaPause className="text-red-600" ></FaPause> : <FaPlay className="text-red-600"></FaPlay>}
                                     </button>
@@ -129,7 +129,7 @@ const MyAddedDonation = () => {
                                             </form>
                                             <form className="mt-4">
 
-
+                                                <Donator  petName={donation?.petName} ></Donator>
                                             </form>
                                         </div>
                                     </dialog>

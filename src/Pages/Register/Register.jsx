@@ -26,9 +26,9 @@ const Register = () => {
                         const userInfo = {
                             name: data.name,
                             email: data.email,
-                            photo:data.photoURL,
-                            role:"user",
-                            status:"active"
+                            photo: data.photoURL,
+                            role: "user",
+                            status: "active"
 
                         }
                         axiosPublic.post('/users', userInfo)
@@ -46,10 +46,31 @@ const Register = () => {
                                     navigate('/login');
                                 }
                             })
+                            .catch(error => {
+
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: 'Check Your Email And Password',
+                                });
+
+                                console.log(error)
+
+                            })
 
 
                     })
-                 
+
+            }).catch(error => {
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Look Like Email Already Exist',
+                });
+
+                console.log(error)
+
             })
     };
 
@@ -57,9 +78,9 @@ const Register = () => {
         <>
             <div className="">
                 <div className="">
-                    
+
                     <div className="shadow-2xl ">
-                    <h2 className="text-3xl my-10 text-center">Please Register</h2>
+                        <h2 className="text-3xl my-10 text-center">Please Register</h2>
                         <form onSubmit={handleSubmit(onSubmit)} className=" md:w-3/4 lg:w-1/2 mx-auto mb-5">
                             <div className="form-control">
                                 <label className="label">

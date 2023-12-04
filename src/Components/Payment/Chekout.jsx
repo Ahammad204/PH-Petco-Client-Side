@@ -6,44 +6,29 @@ import { useState } from "react";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
+import { useNavigate, useNavigation } from "react-router-dom";
 
 
 
-const Checkout = ({ _id, image, petName }) => {
+const Checkout = ({ _id, image, petName, donatedAmount, maxDonationAmount, ownerEmail }) => {
 
     const [error, setError] = useState('')
-    const [donated, setDonated] = useState()
-    const [clientSecret, setClientSecret] = useState('')
     const [loading, setLoading] = useState(false);
     const stripe = useStripe()
     const elements = useElements();
     const axiosSecure = useAxiosSecure()
     const { user } = useAuth();
-
+    const navigate = useNavigate()
 
     // const email = user.email;
     const names = user.displayName;
     const email = user.email;
 
-    axiosSecure.get('/donated', {
-        params: {
-            petName: petName,
-        },
-    })
-        .then(response => {
-            // console.log('Response:', response.data[0]);
-            setDonated(response.data[0]);
-        })
-        .catch(error => {
-            console.error('Error:', error.message);
-        });
-
-    const maxDonationAmount = donated?.maxDonationAmount;
-    // console.log(maxDonationAmount)
+    console.log(donatedAmount)
 
     const handleDonationChange = (event) => {
         const newDonation = parseFloat(event.target.value);
-        if (donated.donatedAmount + newDonation > maxDonationAmount) {
+        if (donatedAmount + newDonation > maxDonationAmount) {
             setError(`Total donation amount exceeds the maximum limit of $${maxDonationAmount}`);
         } else {
             setError('');
@@ -96,87 +81,95 @@ const Checkout = ({ _id, image, petName }) => {
             console.log(donation)
 
             const response = await axiosSecure.post('/create-payment-intent', { donation });
-            setClientSecret(response.data.clientSecret);
+            const clientSecret = (response.data?.clientSecret);
+
             console.log(response.data.clientSecret);
 
             setError('')
             setLoading(false);
 
-        }
+            // Confirm Payment 
+            const { paymentIntent, error: ConfirmError } = await stripe.confirmCardPayment(clientSecret, {
 
-        // Confirm Payment 
-        const { paymentIntent, error: ConfirmError } = await stripe.confirmCardPayment(clientSecret, {
+                payment_method: {
 
-            payment_method: {
+                    card: card,
+                    billing_details: {
 
-                card: card,
-                billing_details: {
+                        email: email || 'Unknown',
+                        name: names || 'Unknown'
 
-                    email: email || 'Unknown',
-                    name: names || 'Unknown'
+                    }
 
+                }
+
+            })
+            if (ConfirmError) {
+
+                console.log('Confirm Error')
+
+            } else {
+
+                console.log('Payment Intent', paymentIntent)
+                if (paymentIntent.status === 'succeeded') {
+
+                    console.log('Transaction Id', paymentIntent.id)
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Congratulation! You Save A Pet",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+
+                    const donate = {
+
+                        ownerEmail: ownerEmail,
+                        donatorEmail: email,
+                        donateAmount: parseInt(donation),
+                        transactionId: paymentIntent.id,
+                        donatePetImage: image,
+                        donatePetName: petName,
+
+
+                    }
+                    console.log('Owner Email', ownerEmail)
+
+                    const res = await axiosSecure.post('/payment', donate)
+                    console.log(res)
+
+
+                    const donatedAmounts = (donatedAmount === 0 ? donation : parseFloat(donatedAmount) + parseFloat(donation))
+
+                    const donationPercentage = (parseFloat(donatedAmounts) / maxDonationAmount) * 100;
+
+
+                    console.log('Donation Percentage:', donationPercentage);
+
+                    const donatedItem = {
+
+                        donatedAmount: parseFloat(donatedAmount) + parseFloat(donation),
+
+                    }
+                    // const donatedRes = await axiosSecure.patch(`/donated/${donated._id}`, donatedItem);
+                    const donateRes = await axiosSecure.patch(`/donatedAmount/${_id}`, donatedItem);
+
+                    const donatedItemParcentage = {
+
+                        donatedParcentage: Math.round(donationPercentage)
+
+                    }
+                    const donatedPRes = await axiosSecure.patch(`/donation/parcentage/${_id}`, donatedItemParcentage);
+                    navigate('/');
                 }
 
             }
 
-        })
-
-        if (ConfirmError) {
-
-            console.log('Confirm Error')
-
-        } else {
-
-            console.log('Payment Intent', paymentIntent)
-            if (paymentIntent.status === 'succeeded') {
-
-                console.log('Transaction Id', paymentIntent.id)
-                Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: "Congratulation! You Save A Pet",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-
-                const donate = {
-
-                    donatorEmail: email,
-                    donateAmount: parseInt(donation),
-                    transactionId: paymentIntent.id,
-                    donatePetImage: image,
-                    donatePetName: petName,
-
-                }
-
-                const res = await axiosSecure.post('/payment', donate)
-                console.log(res)
-
-                const donatedAmounts = (donated.donatedAmount === 0? donation: donated.donatedAmount)
-                
-                const donationPercentage = (parseFloat(donatedAmounts) / maxDonationAmount) * 100;
-
-             
-                console.log('Donation Percentage:', donationPercentage);
-
-
-                const donatedItem = {
-
-                    donatedAmount: parseFloat(donated.donatedAmount) + parseFloat(donation),
-
-                }
-                const donatedRes = await axiosSecure.patch(`/donated/${donated._id}`, donatedItem);
-
-                const donatedItemParcentage = {
-
-                    donatedParcentage:donationPercentage
-
-                }
-                const donatedPRes = await axiosSecure.patch(`/donation/parcentage/${_id}`, donatedItemParcentage);
-
-            }
-
         }
+
+
+
+
 
 
     }
@@ -236,7 +229,7 @@ const Checkout = ({ _id, image, petName }) => {
             >
                 Donate
             </button>
-            
+
             <p className="text-red-600">
                 {error}
             </p>

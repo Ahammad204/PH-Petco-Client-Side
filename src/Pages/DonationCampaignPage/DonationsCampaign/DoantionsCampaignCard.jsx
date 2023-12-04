@@ -7,7 +7,9 @@ import { Link } from "react-router-dom";
 
 const DonationCampaignCard = ({  donationItem }) => {
 
-    const { _id, petName, maxDonationAmount, DonatedAmount,  image, } = donationItem || {}
+    const { _id, petName, maxDonationAmount,donatedAmount, image, } = donationItem || {}
+
+    console.log(donatedAmount)
 
     return (
 
@@ -16,7 +18,7 @@ const DonationCampaignCard = ({  donationItem }) => {
             <div className="card-body">
                 <h2 className="card-title font-extrabold text-3xl">{petName}</h2>
                 <p className="text-base font-semibold mt-4">Maximum Donation Amount: {maxDonationAmount} </p>
-                {/* <p className="text-lg font-semibold text-[#f04336]">Donated Amount: {DonatedAmount}</p> */}
+                <p className="text-lg font-semibold text-[#f04336]">Donated Amount: ${donatedAmount} </p>
                
 
                 <div className="card-actions justify-end">

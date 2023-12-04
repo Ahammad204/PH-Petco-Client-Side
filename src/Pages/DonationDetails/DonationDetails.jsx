@@ -18,12 +18,12 @@ const DonationDetailsPage = () => {
     const [suggestedDonations, setSuggestedDonations] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
-    const { _id, petName, maxDonationAmount, longDescription, image, email: ownerEmail, status } = donationDetails || {}
+    const { _id, petName, maxDonationAmount, longDescription, image, ownerEmail, status,donatedAmount } = donationDetails || {}
 
     const { user } = useAuth();
 
-    const email = user.email;
-    const names = user.displayName;
+    const email = user?.email;
+    const names = user?.displayName;
     const donationId = _id;
 
 
@@ -92,7 +92,7 @@ const DonationDetailsPage = () => {
                                 }}
 
                             >
-                                Donate
+                                Donate Now
                             </button>
 
 
@@ -112,7 +112,7 @@ const DonationDetailsPage = () => {
                                         <div>
                                             <Elements stripe={stripePromise}>
 
-                                                <Checkout _id={_id} image={image} petName={petName}></Checkout>
+                                                <Checkout _id={_id} image={image} petName={petName} donatedAmount={donatedAmount} maxDonationAmount={maxDonationAmount} ownerEmail={ownerEmail}></Checkout>
 
                                             </Elements>
                                         </div>

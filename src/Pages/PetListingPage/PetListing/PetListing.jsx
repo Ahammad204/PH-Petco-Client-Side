@@ -102,7 +102,7 @@ const Petlisting = () => {
     return (
         <div>
             <div>
-                <div className="flex my-4 gap-4">
+                <div className="md:flex my-4 gap-4">
                     <select onChange={handleCategoryChange} className="select select-bordered w-full max-w-xs">
                         <option disabled selected>Select a Pet Category</option>
 
@@ -115,7 +115,7 @@ const Petlisting = () => {
 
                     </select>
                     <input onChange={(e) => setInputValue(e.target.value)}
-                        onKeyDown={handleSearch} type="text" placeholder="Search By Pet Name..." className="input input-bordered w-full "></input>
+                        onKeyDown={handleSearch} type="text" placeholder="Search By Pet Name..." className="input input-bordered w-full mt-3 md:mt-0"></input>
 
                 </div>
                 <div>

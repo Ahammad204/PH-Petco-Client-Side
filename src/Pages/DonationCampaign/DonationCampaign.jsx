@@ -80,7 +80,8 @@ const DonationCampaign = () => {
                     ownerEmail: email,
                     status:"active",
                     image: res.data.data.display_url,
-                    donatedParcentage:parseFloat(0)
+                    donatedParcentage:parseFloat(0),
+                    donatedAmount: parseFloat(0)
                 };
 
                 const donationRes = await axiosSecure.post('/donation', donationItem);
@@ -154,7 +155,7 @@ const DonationCampaign = () => {
 
                 {/* Last Date */}
                 <div className="form-control w-full my-6">
-                    <label className='label' htmlFor="addedDate"><span className="label-text">Date*</span></label>
+                    <label className='label' htmlFor="addedDate"><span className="label-text">Last Date Of Donation*</span></label>
                     <DatePicker
                         id="addedDate"
                         name="addedDate"
@@ -222,7 +223,7 @@ const DonationCampaign = () => {
 
 
                 {/* Submit Button */}
-                <button className='btn bg-[#f04336] hover:bg-[#f04336] w-full text-white' type="submit">Add Pet</button>
+                <button className='btn bg-[#f04336] hover:bg-[#f04336] w-full text-white' type="submit">Add Campaign</button>
             </form>
         </div>
     );
