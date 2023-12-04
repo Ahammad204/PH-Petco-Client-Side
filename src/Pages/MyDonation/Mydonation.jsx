@@ -1,5 +1,5 @@
 
-import {  FaPause, FaPlay, } from "react-icons/fa";
+import { FaPause, FaPlay, } from "react-icons/fa";
 import Swal from "sweetalert2";
 
 import { useState } from "react";
@@ -8,6 +8,7 @@ import { Pagination } from "@mui/material";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 import useMyDonation from "../../Hooks/useMyDonation";
+
 
 
 const MyDonation = () => {
@@ -24,20 +25,34 @@ const MyDonation = () => {
 
     //Handle Update Donation Status
     const handleRefund = donation => {
-        axiosSecure.patch(`/donation/user/${donation._id}`)
-            .then(res => {
-                console.log(res.data)
-                if (res.data.modifiedCount > 0) {
-                    refetch();
-                    Swal.fire({
-                        position: "top-end",
-                        icon: "success",
-                        title: `Campaign status is Update Now!`,
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                }
-            })
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+               
+                   axiosSecure.delete(`/payments/${donation._id}`)
+                   .then(res => {
+                       if (res.data.deletedCount > 0) {
+                           refetch();
+                           Swal.fire({
+                               title: "Returned!",
+                               text: "Your Donation Has been Returned.",
+                               icon: "success"
+                           });
+                       }
+                   })
+                   
+
+            }
+        });
     }
 
     const offset = (currentPage - 1) * MyDonationsPerPage;
@@ -58,7 +73,7 @@ const MyDonation = () => {
                             <th>Name</th>
                             <th>Donated Amount</th>
                             <th>Refund</th>
-                           
+
                         </tr>
                     </thead>
                     <tbody>

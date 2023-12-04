@@ -9,9 +9,9 @@ const useAddedPets = () => {
     const axiosSecure = useAxiosSecure();
     const { user} = useAuth();
     const { refetch, data: pet = [] } = useQuery({
-        queryKey: ['pet', user?.email],
+        queryKey: ['petAl', user?.email],
         queryFn: async() => {
-            const res = await axiosSecure.get(`/pet?email=${user.email}`);
+            const res = await axiosSecure.get(`/petAl?email=${user.email}`);
             return res.data;
         }
     })

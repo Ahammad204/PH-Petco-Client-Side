@@ -9,7 +9,6 @@ import useAuth from "../../Hooks/useAuth";
 const Dashboard = () => {
     // const [cart] = useCart();
 
-    // TODO: get isAdmin value from the database
     const [isAdmin] = useAdmin();
     const { user } = useAuth()
 
