@@ -15,7 +15,7 @@ const DonationsCampaign = () => {
    // Fetch donation data
     const fetchDonationData = async (pageNumber) => {
         setIsLoading(true);
-        const response = await fetch(`http://localhost:5000/donationCampaign?page=${pageNumber}`);
+        const response = await fetch(`https://php-etco-server-side.vercel.app/donationCampaign?page=${pageNumber}`);
         const data = await response.json();
 
         if (data.length === 0) {

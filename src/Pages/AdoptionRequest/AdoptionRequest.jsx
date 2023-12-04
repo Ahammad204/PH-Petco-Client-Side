@@ -24,6 +24,7 @@ const AdoptionRequest = () => {
 
     //Handle Adoption Accept Status
     const handleAccept = adoptReq => {
+        
         axiosSecure.patch(`/adopt/accept/${adoptReq._id}`)
             .then(res => {
                 console.log(res.data)
@@ -36,9 +37,20 @@ const AdoptionRequest = () => {
                         showConfirmButton: false,
                         timer: 1500
                     });
+
+                    // Move the second axiosSecure.patch call here
+                    return axiosSecure.patch(`/pet/accept/${adoptReq?.petsId}`);
                 }
             })
-    }
+            .then(secondRes => {
+                // Handle the response of the second request here if needed
+                console.log(secondRes.data);
+            })
+            .catch(error => {
+                // Handle errors for both requests here
+                console.error(error);
+            });
+    };
 
     //Handle Adoption Reject Status
     const handleReject = adoptReq => {
@@ -56,6 +68,7 @@ const AdoptionRequest = () => {
                     });
                 }
             })
+        axiosSecure.patch(`/pet/reject/${adoptReq._id}`)
     }
 
     const offset = (currentPage - 1) * adoptPerPage;
@@ -78,14 +91,14 @@ const AdoptionRequest = () => {
                             <th>Location</th>
                             <th>Accept</th>
                             <th>Reject</th>
-                           
+
                         </tr>
                     </thead>
                     <tbody>
                         {
                             currentDonations?.map((adoptRequest, index) => <tr key={adoptRequest._id}>
                                 <th>{index + 1}</th>
-                             
+
                                 <td>{adoptRequest?.names}</td>
                                 <td> {adoptRequest?.email}</td>
                                 <td> {adoptRequest?.phone}</td>
@@ -95,14 +108,14 @@ const AdoptionRequest = () => {
                                     <button
                                         onClick={() => handleAccept(adoptRequest)}
                                         className="btn btn-ghost btn-lg text-red-600">
-                                         Accept
+                                        Accept
                                     </button>
                                 </td>
                                 <td>
                                     <button
                                         onClick={() => handleReject(adoptRequest)}
                                         className="btn btn-ghost btn-lg text-red-600">
-                                         Reject
+                                        Reject
                                     </button>
                                 </td>
 

@@ -96,7 +96,7 @@ export const router = createBrowserRouter([
       }, {
         path: '/dashboard/updateItem/:id',
         element: <PrivateRoute><UpdatePet></UpdatePet></PrivateRoute>,
-        loader: ({ params }) => fetch(`http://localhost:5000/pet/${params.id}`)
+        loader: ({ params }) => fetch(`https://php-etco-server-side.vercel.app/pet/${params.id}`)
       },{
 
           path:'/dashboard/createDonationCampaign',
@@ -110,7 +110,7 @@ export const router = createBrowserRouter([
       },{
         path: '/dashboard/updateDonation/:id',
         element: <PrivateRoute><UpdateDonationCampaign></UpdateDonationCampaign></PrivateRoute>,
-        loader: ({ params }) => fetch(`http://localhost:5000/donation/${params.id}`)
+        loader: ({ params }) => fetch(`https://php-etco-server-side.vercel.app/donation/${params.id}`)
       }, {
 
         path: "/dashboard/myDonation",

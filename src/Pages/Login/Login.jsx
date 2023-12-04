@@ -20,7 +20,7 @@ const Login = () => {
         
         // Fetch user status
         try {
-            const statusResponse = await axios.get(`http://localhost:5000/usersInfo`);
+            const statusResponse = await axios.get(`https://php-etco-server-side.vercel.app/usersInfo`);
             const usersData = statusResponse.data;
           console.log(statusResponse)
             const foundUser = usersData.find(user => user.email === email);
@@ -68,7 +68,7 @@ const Login = () => {
                     navigate(location?.state ? location.state : '/');
 
                     // Get Access Token
-                    axios.post('http://localhost:5000/jwt', { email }, { withCredentials: true })
+                    axios.post('https://php-etco-server-side.vercel.app/jwt', { email }, { withCredentials: true })
                         .then(res => {
                             if (res.data.success) {
                                 navigate(location?.state ? location.state : '/');

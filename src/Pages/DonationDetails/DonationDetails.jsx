@@ -30,7 +30,7 @@ const DonationDetailsPage = () => {
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
-            const response = await fetch(`http://localhost:5000/donationCampaign`);
+            const response = await fetch(`https://php-etco-server-side.vercel.app/donationCampaign`);
             const data = await response.json();
             const filteredProducts = data.filter((item) => item._id === id);
             setDonationDetails(filteredProducts[0]);
@@ -46,7 +46,7 @@ const DonationDetailsPage = () => {
     useEffect(() => {
         const fetchSuggestedDonations = async () => {
             try {
-                const response = await fetch('http://localhost:5000/donationCampaign');
+                const response = await fetch('https://php-etco-server-side.vercel.app/donationCampaign');
                 const data = await response.json();
                 setSuggestedDonations(data.slice(0, 3));
             } catch (error) {

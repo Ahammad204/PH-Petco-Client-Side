@@ -1,30 +1,34 @@
 /* eslint-disable no-unused-vars */
 
+
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 
 const DetailsPage = () => {
 
     const { id } = useParams()
     const [petDetails, setPetDetails] = useState();
+    const axiosSecure = useAxiosSecure();
     const [isLoading, setIsLoading] = useState(true);
 
-    const { _id, petName,petAge, longDescription, image, category, email: ownerEmail } = petDetails || {}
+    const { _id, petName, petAge, longDescription, image, category, email: ownerEmail } = petDetails || {}
 
     const { user } = useAuth();
 
     const email = user.email;
     const names = user.displayName;
     const petId = _id;
+    console.log(petDetails)
 
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
-            const response = await fetch(`http://localhost:5000/petListing`);
+            const response = await fetch(`https://php-etco-server-side.vercel.app/petListing`);
             const data = await response.json();
             const filteredProducts = data.filter((item) => item._id === id);
             setPetDetails(filteredProducts[0]);
@@ -34,51 +38,41 @@ const DetailsPage = () => {
         };
 
         fetchData();
-    }, [email, petId, id]);
+    }, [email, id]);
 
-    const handleAdoptPet = (e) => {
+    const handleAdoptPet = async (e) => {
 
         e.preventDefault();
         const form = e.target;
 
-        const names = form.names?.value;
-        const email = form.email?.value;
-        const phone = form.phoneNumber?.value;
-        const address = form.address?.value;
-        const status = 'pending'
+        const newAdopt = {
 
-        const newAdopt = { names, email, phone, address, ownerEmail,status }
+             names: form.names?.value,
+             email: form.email?.value,
+             phone: form.phoneNumber?.value,
+             address: form.address?.value,
+             status: 'pending',
+             petsId:id,
+             ownerEmail:ownerEmail
+        }
 
         console.log(newAdopt);
 
-        //send data to the server
-        fetch('http://localhost:5000/adopt', {
 
-            method: 'POST',
-            headers: {
+        // 
+        const petRes = await axiosSecure.post('/adopt', newAdopt);
+        console.log(petRes.data)
+        if (petRes.data.insertedId) {
+            // show success popup
 
-                'content-type': 'application/json'
-
-            },
-            body: JSON.stringify(newAdopt)
-
-        })
-            .then(res => res.json())
-            .then(data => {
-
-                if (data.insertedId) {
-
-                    Swal.fire({
-                        position: "top-end",
-                        icon: "success",
-                        title: "Your Request has been sent",
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-
-                }
-
-            })
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: `Adopt is added to the Team.`,
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
     }
 
 

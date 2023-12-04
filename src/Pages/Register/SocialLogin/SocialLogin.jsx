@@ -19,7 +19,7 @@ const SocialLogin = () => {
         social()
             .then(async(result) => {
                 console.log(result.user);
-                const statusResponse = await axios.get(`http://localhost:5000/usersInfo`);
+                const statusResponse = await axios.get(`https://php-etco-server-side.vercel.app/usersInfo`);
                 const usersData = statusResponse.data;
                 console.log(statusResponse)
                 const foundUser = usersData.find(user => user.email === result.user.email);
