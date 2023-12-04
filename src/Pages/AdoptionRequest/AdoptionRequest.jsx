@@ -24,7 +24,7 @@ const AdoptionRequest = () => {
 
     //Handle Adoption Accept Status
     const handleAccept = adoptReq => {
-        
+
         axiosSecure.patch(`/adopt/accept/${adoptReq._id}`)
             .then(res => {
                 console.log(res.data)
@@ -66,9 +66,18 @@ const AdoptionRequest = () => {
                         showConfirmButton: false,
                         timer: 1500
                     });
+                    return axiosSecure.patch(`/pet/reject/${adoptReq?.petsId}`)
                 }
             })
-        return axiosSecure.patch(`/pet/reject/${adoptReq?.petsId}`)
+            .then(secondRes => {
+                // Handle the response of the second request here if needed
+                console.log(secondRes.data);
+            })
+            .catch(error => {
+                // Handle errors for both requests here
+                console.error(error);
+            });
+
     }
 
     const offset = (currentPage - 1) * adoptPerPage;
