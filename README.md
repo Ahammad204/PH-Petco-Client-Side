@@ -1,8 +1,8 @@
 # Additional Information
 
-1.Admin email: admin@gmail.com
-2.Admin Password: Ahammad204@
-3. Front_end_Live_Site_Link: https://phpetco20.web.app/
+ - Admin email: admin@gmail.com
+ - Admin Password: Ahammad204@
+ - Front_end_Live_Site_Link: https://phpetco20.web.app/
 
 # Features
  - User can add pet and information by select Pet category.
